@@ -1,0 +1,343 @@
+import 'package:zan/core/constants/enums.dart';
+
+class PresetAccount {
+  const PresetAccount({
+    required this.name,
+    required this.nameEn,
+    required this.nameJa,
+    required this.type,
+    required this.category,
+    required this.icon,
+    required this.color,
+    this.isDefault = false,
+  });
+
+  final String name;
+  final String nameEn;
+  final String nameJa;
+  final AccountType type;
+  final AccountCategory category;
+  final String icon;
+  final String color;
+  final bool isDefault;
+}
+
+class CountryPreset {
+  const CountryPreset({
+    required this.code,
+    required this.name,
+    required this.nameEn,
+    required this.flag,
+    required this.currency,
+    required this.accounts,
+  });
+
+  final String code;
+  final String name;
+  final String nameEn;
+  final String flag;
+  final String currency;
+  final List<PresetAccount> accounts;
+}
+
+const japanPreset = CountryPreset(
+  code: 'JP',
+  name: '日本',
+  nameEn: 'Japan',
+  flag: '🇯🇵',
+  currency: 'JPY',
+  accounts: [
+    // Assets
+    PresetAccount(
+      name: '現金',
+      nameEn: 'Cash',
+      nameJa: '現金',
+      type: AccountType.asset,
+      category: AccountCategory.cash,
+      icon: 'cash',
+      color: '#4CAF50',
+      isDefault: true,
+    ),
+    PresetAccount(
+      name: '銀行口座',
+      nameEn: 'Bank Account',
+      nameJa: '銀行口座',
+      type: AccountType.asset,
+      category: AccountCategory.bankAccount,
+      icon: 'bank',
+      color: '#2196F3',
+    ),
+    PresetAccount(
+      name: 'PayPay',
+      nameEn: 'PayPay',
+      nameJa: 'PayPay',
+      type: AccountType.asset,
+      category: AccountCategory.eMoney,
+      icon: 'phone',
+      color: '#FF1744',
+    ),
+    PresetAccount(
+      name: 'Suica',
+      nameEn: 'Suica',
+      nameJa: 'Suica',
+      type: AccountType.asset,
+      category: AccountCategory.eMoney,
+      icon: 'train',
+      color: '#00BCD4',
+    ),
+    // Liabilities
+    PresetAccount(
+      name: 'クレジットカード',
+      nameEn: 'Credit Card',
+      nameJa: 'クレジットカード',
+      type: AccountType.liability,
+      category: AccountCategory.creditCard,
+      icon: 'credit_card',
+      color: '#FF5722',
+    ),
+    // Expenses
+    PresetAccount(
+      name: '食費',
+      nameEn: 'Food',
+      nameJa: '食費',
+      type: AccountType.expense,
+      category: AccountCategory.food,
+      icon: 'restaurant',
+      color: '#FF9800',
+    ),
+    PresetAccount(
+      name: '交通費',
+      nameEn: 'Transport',
+      nameJa: '交通費',
+      type: AccountType.expense,
+      category: AccountCategory.transport,
+      icon: 'directions_transit',
+      color: '#607D8B',
+    ),
+    PresetAccount(
+      name: '住居費',
+      nameEn: 'Housing',
+      nameJa: '住居費',
+      type: AccountType.expense,
+      category: AccountCategory.housing,
+      icon: 'home',
+      color: '#795548',
+    ),
+    PresetAccount(
+      name: '光熱費',
+      nameEn: 'Utilities',
+      nameJa: '光熱費',
+      type: AccountType.expense,
+      category: AccountCategory.utilities,
+      icon: 'bolt',
+      color: '#FFC107',
+    ),
+    PresetAccount(
+      name: '娯楽',
+      nameEn: 'Entertainment',
+      nameJa: '娯楽',
+      type: AccountType.expense,
+      category: AccountCategory.entertainment,
+      icon: 'movie',
+      color: '#E91E63',
+    ),
+    PresetAccount(
+      name: '買い物',
+      nameEn: 'Shopping',
+      nameJa: '買い物',
+      type: AccountType.expense,
+      category: AccountCategory.shopping,
+      icon: 'shopping_bag',
+      color: '#9C27B0',
+    ),
+    PresetAccount(
+      name: '通信費',
+      nameEn: 'Communication',
+      nameJa: '通信費',
+      type: AccountType.expense,
+      category: AccountCategory.communication,
+      icon: 'phone_android',
+      color: '#3F51B5',
+    ),
+    PresetAccount(
+      name: 'その他支出',
+      nameEn: 'Other Expense',
+      nameJa: 'その他支出',
+      type: AccountType.expense,
+      category: AccountCategory.otherExpense,
+      icon: 'more_horiz',
+      color: '#9E9E9E',
+    ),
+    // Income
+    PresetAccount(
+      name: '給与',
+      nameEn: 'Salary',
+      nameJa: '給与',
+      type: AccountType.income,
+      category: AccountCategory.salary,
+      icon: 'work',
+      color: '#4CAF50',
+    ),
+    PresetAccount(
+      name: 'その他収入',
+      nameEn: 'Other Income',
+      nameJa: 'その他収入',
+      type: AccountType.income,
+      category: AccountCategory.otherIncome,
+      icon: 'attach_money',
+      color: '#8BC34A',
+    ),
+  ],
+);
+
+const koreaPreset = CountryPreset(
+  code: 'KR',
+  name: '한국',
+  nameEn: 'Korea',
+  flag: '🇰🇷',
+  currency: 'KRW',
+  accounts: [
+    // Assets
+    PresetAccount(
+      name: '현금',
+      nameEn: 'Cash',
+      nameJa: '現金',
+      type: AccountType.asset,
+      category: AccountCategory.cash,
+      icon: 'cash',
+      color: '#4CAF50',
+      isDefault: true,
+    ),
+    PresetAccount(
+      name: '은행 계좌',
+      nameEn: 'Bank Account',
+      nameJa: '銀行口座',
+      type: AccountType.asset,
+      category: AccountCategory.bankAccount,
+      icon: 'bank',
+      color: '#2196F3',
+    ),
+    PresetAccount(
+      name: '카카오페이',
+      nameEn: 'KakaoPay',
+      nameJa: 'カカオペイ',
+      type: AccountType.asset,
+      category: AccountCategory.eMoney,
+      icon: 'phone',
+      color: '#FEE500',
+    ),
+    PresetAccount(
+      name: '토스',
+      nameEn: 'Toss',
+      nameJa: 'Toss',
+      type: AccountType.asset,
+      category: AccountCategory.eMoney,
+      icon: 'phone',
+      color: '#0064FF',
+    ),
+    // Liabilities
+    PresetAccount(
+      name: '신용카드',
+      nameEn: 'Credit Card',
+      nameJa: 'クレジットカード',
+      type: AccountType.liability,
+      category: AccountCategory.creditCard,
+      icon: 'credit_card',
+      color: '#FF5722',
+    ),
+    // Expenses
+    PresetAccount(
+      name: '식비',
+      nameEn: 'Food',
+      nameJa: '食費',
+      type: AccountType.expense,
+      category: AccountCategory.food,
+      icon: 'restaurant',
+      color: '#FF9800',
+    ),
+    PresetAccount(
+      name: '교통비',
+      nameEn: 'Transport',
+      nameJa: '交通費',
+      type: AccountType.expense,
+      category: AccountCategory.transport,
+      icon: 'directions_transit',
+      color: '#607D8B',
+    ),
+    PresetAccount(
+      name: '주거비',
+      nameEn: 'Housing',
+      nameJa: '住居費',
+      type: AccountType.expense,
+      category: AccountCategory.housing,
+      icon: 'home',
+      color: '#795548',
+    ),
+    PresetAccount(
+      name: '공과금',
+      nameEn: 'Utilities',
+      nameJa: '光熱費',
+      type: AccountType.expense,
+      category: AccountCategory.utilities,
+      icon: 'bolt',
+      color: '#FFC107',
+    ),
+    PresetAccount(
+      name: '여가',
+      nameEn: 'Entertainment',
+      nameJa: '娯楽',
+      type: AccountType.expense,
+      category: AccountCategory.entertainment,
+      icon: 'movie',
+      color: '#E91E63',
+    ),
+    PresetAccount(
+      name: '쇼핑',
+      nameEn: 'Shopping',
+      nameJa: '買い物',
+      type: AccountType.expense,
+      category: AccountCategory.shopping,
+      icon: 'shopping_bag',
+      color: '#9C27B0',
+    ),
+    PresetAccount(
+      name: '통신비',
+      nameEn: 'Communication',
+      nameJa: '通信費',
+      type: AccountType.expense,
+      category: AccountCategory.communication,
+      icon: 'phone_android',
+      color: '#3F51B5',
+    ),
+    PresetAccount(
+      name: '기타 지출',
+      nameEn: 'Other Expense',
+      nameJa: 'その他支出',
+      type: AccountType.expense,
+      category: AccountCategory.otherExpense,
+      icon: 'more_horiz',
+      color: '#9E9E9E',
+    ),
+    // Income
+    PresetAccount(
+      name: '급여',
+      nameEn: 'Salary',
+      nameJa: '給与',
+      type: AccountType.income,
+      category: AccountCategory.salary,
+      icon: 'work',
+      color: '#4CAF50',
+    ),
+    PresetAccount(
+      name: '기타 수입',
+      nameEn: 'Other Income',
+      nameJa: 'その他収入',
+      type: AccountType.income,
+      category: AccountCategory.otherIncome,
+      icon: 'attach_money',
+      color: '#8BC34A',
+    ),
+  ],
+);
+
+const countryPresets = [japanPreset, koreaPreset];

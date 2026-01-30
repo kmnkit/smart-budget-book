@@ -1,0 +1,14 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        options:
+          format: true
+      json_serializable:
+        options:
+          explicit_to_json: true
+          field_rename: snake
+          create_factory: true
+      riverpod_generator:
+        options:
+          format: true
