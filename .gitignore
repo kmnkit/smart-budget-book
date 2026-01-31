@@ -26,6 +26,9 @@ lib/generated/
 supabase/.temp/
 supabase/.branches/
 
+# Dev tools
+.serena/
+
 # OS
 .DS_Store
 *.swp

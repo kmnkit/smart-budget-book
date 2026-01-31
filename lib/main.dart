@@ -8,7 +8,8 @@ import 'package:zan/config/env/env.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load();
+  const envFile = String.fromEnvironment('ENV_FILE', defaultValue: '.env');
+  await dotenv.load(fileName: envFile);
 
   await Supabase.initialize(
     url: Env.supabaseUrl,

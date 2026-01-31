@@ -41,6 +41,11 @@ dependencies:
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
 
+  # Auth
+  google_sign_in: ^6.2.2
+  sign_in_with_apple: ^6.1.4
+  crypto: ^3.0.6
+
   # Security
   flutter_secure_storage: ^9.2.4
 
@@ -77,5 +82,6 @@ flutter:
 
   assets:
     - .env
+    - .env.production
     - assets/icons/
     - assets/images/
