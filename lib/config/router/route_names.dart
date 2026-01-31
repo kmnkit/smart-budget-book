@@ -3,7 +3,6 @@ class RouteNames {
 
   static const splash = 'splash';
   static const signIn = 'signIn';
-  static const signUp = 'signUp';
   static const onboarding = 'onboarding';
   static const home = 'home';
   static const transactions = 'transactions';
@@ -13,6 +12,7 @@ class RouteNames {
   static const transactionDetail = 'transactionDetail';
   static const accountList = 'accountList';
   static const accountForm = 'accountForm';
+  static const presetSetup = 'presetSetup';
 }
 
 class RoutePaths {
@@ -20,7 +20,6 @@ class RoutePaths {
 
   static const splash = '/';
   static const signIn = '/sign-in';
-  static const signUp = '/sign-up';
   static const onboarding = '/onboarding';
   static const home = '/home';
   static const transactions = '/transactions';
@@ -30,4 +29,5 @@ class RoutePaths {
   static const transactionDetail = '/transaction/:id';
   static const accountList = '/accounts';
   static const accountForm = '/account-form';
+  static const presetSetup = '/preset-setup';
 }

@@ -5,7 +5,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:zan/config/router/route_names.dart';
 import 'package:zan/presentation/providers/auth_provider.dart';
 import 'package:zan/presentation/screens/auth/sign_in_screen.dart';
-import 'package:zan/presentation/screens/auth/sign_up_screen.dart';
 import 'package:zan/presentation/screens/home/home_screen.dart';
 import 'package:zan/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:zan/presentation/screens/reports/report_screen.dart';
@@ -16,6 +15,7 @@ import 'package:zan/presentation/screens/transactions/transaction_input_screen.d
 import 'package:zan/presentation/screens/transactions/transaction_list_screen.dart';
 import 'package:zan/presentation/screens/accounts/account_list_screen.dart';
 import 'package:zan/presentation/screens/accounts/account_form_screen.dart';
+import 'package:zan/presentation/screens/preset_setup/preset_setup_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -31,10 +31,9 @@ GoRouter appRouter(Ref ref) {
     initialLocation: RoutePaths.splash,
     debugLogDiagnostics: true,
     redirect: (context, state) {
-      final isLoggedIn = authState.valueOrNull != null;
+      final isLoggedIn = authState.valueOrNull?.session != null;
       final isOnSplash = state.matchedLocation == RoutePaths.splash;
-      final isOnAuth = state.matchedLocation == RoutePaths.signIn ||
-          state.matchedLocation == RoutePaths.signUp;
+      final isOnAuth = state.matchedLocation == RoutePaths.signIn;
 
       if (isOnSplash) return null;
 
@@ -58,11 +57,6 @@ GoRouter appRouter(Ref ref) {
         path: RoutePaths.signIn,
         name: RouteNames.signIn,
         builder: (context, state) => const SignInScreen(),
-      ),
-      GoRoute(
-        path: RoutePaths.signUp,
-        name: RouteNames.signUp,
-        builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
         path: RoutePaths.onboarding,
@@ -115,6 +109,11 @@ GoRouter appRouter(Ref ref) {
           final accountId = state.uri.queryParameters['id'];
           return AccountFormScreen(accountId: accountId);
         },
+      ),
+      GoRoute(
+        path: RoutePaths.presetSetup,
+        name: RouteNames.presetSetup,
+        builder: (context, state) => const PresetSetupScreen(),
       ),
     ],
   );
