@@ -8,12 +8,9 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
 
   @override
-  Future<Result<void>> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<Result<void>> signInWithGoogle() async {
     try {
-      await _remoteDataSource.signIn(email: email, password: password);
+      await _remoteDataSource.signInWithGoogle();
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
@@ -21,17 +18,9 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<void>> signUp({
-    required String email,
-    required String password,
-    String? displayName,
-  }) async {
+  Future<Result<void>> signInWithApple() async {
     try {
-      await _remoteDataSource.signUp(
-        email: email,
-        password: password,
-        displayName: displayName,
-      );
+      await _remoteDataSource.signInWithApple();
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
@@ -42,6 +31,16 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> signOut() async {
     try {
       await _remoteDataSource.signOut();
+      return const Success(null);
+    } catch (e) {
+      return Fail(AuthFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<void>> deleteAccount() async {
+    try {
+      await _remoteDataSource.deleteAccount();
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));

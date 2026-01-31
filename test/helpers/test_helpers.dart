@@ -1,3 +1,4 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zan/core/constants/enums.dart';
@@ -19,6 +20,8 @@ import 'package:zan/domain/repositories/transaction_repository.dart';
 // ---- Mock Classes ----
 
 class MockSupabaseClient extends Mock implements SupabaseClient {}
+
+class MockGoogleSignIn extends Mock implements GoogleSignIn {}
 
 class MockAccountRemoteDataSource extends Mock implements AccountRemoteDataSource {}
 

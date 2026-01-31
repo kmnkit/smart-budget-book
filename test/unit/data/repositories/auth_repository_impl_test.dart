@@ -27,103 +27,61 @@ void main() {
   });
 
   group('AuthRepositoryImpl', () {
-    group('signIn', () {
-      const email = 'test@example.com';
-      const password = 'password123';
-
+    group('signInWithGoogle', () {
       test('성공 시 Success(null) 반환', () async {
         // arrange
-        when(() => mockDataSource.signIn(email: email, password: password))
+        when(() => mockDataSource.signInWithGoogle())
             .thenAnswer((_) async => _FakeAuthResponse());
 
         // act
-        final result = await repository.signIn(email: email, password: password);
+        final result = await repository.signInWithGoogle();
 
         // assert
         expect(result, isA<Success<void>>());
-        verify(() => mockDataSource.signIn(email: email, password: password))
-            .called(1);
+        verify(() => mockDataSource.signInWithGoogle()).called(1);
       });
 
       test('실패 시 Fail(AuthFailure) 반환', () async {
         // arrange
-        when(() => mockDataSource.signIn(email: email, password: password))
-            .thenThrow(Exception('Invalid credentials'));
+        when(() => mockDataSource.signInWithGoogle())
+            .thenThrow(Exception('Google sign-in was cancelled'));
 
         // act
-        final result = await repository.signIn(email: email, password: password);
+        final result = await repository.signInWithGoogle();
 
         // assert
         expect(result, isA<Fail<void>>());
         expect((result as Fail<void>).failure, isA<AuthFailure>());
-        expect(result.failure.message, contains('Invalid credentials'));
+        expect(result.failure.message, contains('Google sign-in was cancelled'));
       });
     });
 
-    group('signUp', () {
-      const email = 'newuser@example.com';
-      const password = 'password123';
-      const displayName = 'Test User';
-
+    group('signInWithApple', () {
       test('성공 시 Success(null) 반환', () async {
         // arrange
-        when(() => mockDataSource.signUp(
-              email: email,
-              password: password,
-              displayName: null,
-            )).thenAnswer((_) async => _FakeAuthResponse());
+        when(() => mockDataSource.signInWithApple())
+            .thenAnswer((_) async => _FakeAuthResponse());
 
         // act
-        final result = await repository.signUp(email: email, password: password);
+        final result = await repository.signInWithApple();
 
         // assert
         expect(result, isA<Success<void>>());
-        verify(() => mockDataSource.signUp(
-              email: email,
-              password: password,
-              displayName: null,
-            )).called(1);
-      });
-
-      test('displayName 전달 검증', () async {
-        // arrange
-        when(() => mockDataSource.signUp(
-              email: email,
-              password: password,
-              displayName: displayName,
-            )).thenAnswer((_) async => _FakeAuthResponse());
-
-        // act
-        final result = await repository.signUp(
-          email: email,
-          password: password,
-          displayName: displayName,
-        );
-
-        // assert
-        expect(result, isA<Success<void>>());
-        verify(() => mockDataSource.signUp(
-              email: email,
-              password: password,
-              displayName: displayName,
-            )).called(1);
+        verify(() => mockDataSource.signInWithApple()).called(1);
       });
 
       test('실패 시 Fail(AuthFailure) 반환', () async {
         // arrange
-        when(() => mockDataSource.signUp(
-              email: email,
-              password: password,
-              displayName: null,
-            )).thenThrow(Exception('Email already exists'));
+        when(() => mockDataSource.signInWithApple())
+            .thenThrow(Exception('Apple sign-in failed'));
 
         // act
-        final result = await repository.signUp(email: email, password: password);
+        final result = await repository.signInWithApple();
 
         // assert
         expect(result, isA<Fail<void>>());
         expect((result as Fail<void>).failure, isA<AuthFailure>());
-        expect(result.failure.message, contains('Email already exists'));
+        expect(result.failure.message, contains('Apple sign-in failed'));
       });
     });
 
@@ -147,6 +105,33 @@ void main() {
 
         // act
         final result = await repository.signOut();
+
+        // assert
+        expect(result, isA<Fail<void>>());
+        expect((result as Fail<void>).failure, isA<AuthFailure>());
+      });
+    });
+
+    group('deleteAccount', () {
+      test('성공 시 Success(null) 반환', () async {
+        // arrange
+        when(() => mockDataSource.deleteAccount()).thenAnswer((_) async {});
+
+        // act
+        final result = await repository.deleteAccount();
+
+        // assert
+        expect(result, isA<Success<void>>());
+        verify(() => mockDataSource.deleteAccount()).called(1);
+      });
+
+      test('실패 시 Fail(AuthFailure) 반환', () async {
+        // arrange
+        when(() => mockDataSource.deleteAccount())
+            .thenThrow(Exception('Delete failed'));
+
+        // act
+        final result = await repository.deleteAccount();
 
         // assert
         expect(result, isA<Fail<void>>());

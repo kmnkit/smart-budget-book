@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zan/config/router/route_names.dart';
 import 'package:zan/presentation/providers/auth_provider.dart';
+import 'package:zan/presentation/providers/settings_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -24,7 +25,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     final user = ref.read(currentUserProvider);
     if (user != null) {
-      context.go(RoutePaths.home);
+      final profile = await ref.read(userProfileProvider.future);
+      if (!mounted) return;
+      if (profile == null || !profile.onboardingCompleted) {
+        context.go(RoutePaths.onboarding);
+      } else {
+        context.go(RoutePaths.home);
+      }
     } else {
       context.go(RoutePaths.signIn);
     }

@@ -1,22 +1,28 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:zan/config/di/auth_providers.dart';
-import 'package:zan/domain/usecases/sign_in_usecase.dart';
+import 'package:zan/core/usecase/usecase.dart';
 
 part 'sign_in_provider.g.dart';
 
 @riverpod
-class SignInNotifier extends _$SignInNotifier {
+class SocialSignInNotifier extends _$SocialSignInNotifier {
   @override
   AsyncValue<void> build() => const AsyncData(null);
 
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signInWithGoogle() async {
     state = const AsyncLoading();
-    final result = await ref.read(signInUseCaseProvider).call(
-          SignInParams(email: email, password: password),
-        );
+    final result =
+        await ref.read(signInWithGoogleUseCaseProvider).call(const NoParams());
+    state = result.when(
+      success: (_) => const AsyncData(null),
+      failure: (f) => AsyncError(f.message, StackTrace.current),
+    );
+  }
+
+  Future<void> signInWithApple() async {
+    state = const AsyncLoading();
+    final result =
+        await ref.read(signInWithAppleUseCaseProvider).call(const NoParams());
     state = result.when(
       success: (_) => const AsyncData(null),
       failure: (f) => AsyncError(f.message, StackTrace.current),
