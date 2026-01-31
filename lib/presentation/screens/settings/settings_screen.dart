@@ -45,6 +45,7 @@ class SettingsScreen extends ConsumerWidget {
             leading: const Icon(Icons.palette_outlined),
             title: Text(l10n.theme),
             trailing: SegmentedButton<material.ThemeMode>(
+              showSelectedIcon: false,
               segments: [
                 ButtonSegment(
                   value: material.ThemeMode.light,
@@ -77,6 +78,13 @@ class SettingsScreen extends ConsumerWidget {
             title: Text(l10n.accounts),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(RoutePaths.accountList),
+          ),
+          // Preset Setup
+          ListTile(
+            leading: const Icon(Icons.playlist_add),
+            title: Text(l10n.presetSetupTitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(RoutePaths.presetSetup),
           ),
           const Divider(),
           // Sign out
@@ -131,9 +139,14 @@ class SettingsScreen extends ConsumerWidget {
                       child: Text(l10n.cancel),
                     ),
                     TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.pop(context);
-                        // TODO: Implement account deletion
+                        await ref
+                            .read(settingsNotifierProvider.notifier)
+                            .deleteAccount();
+                        if (context.mounted) {
+                          context.go(RoutePaths.signIn);
+                        }
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).colorScheme.error,

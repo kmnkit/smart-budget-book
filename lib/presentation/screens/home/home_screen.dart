@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:zan/config/router/route_names.dart';
 import 'package:zan/core/constants/enums.dart';
 import 'package:zan/core/utils/currency_formatter.dart';
 import 'package:zan/domain/entities/account_balance.dart';
@@ -131,6 +133,10 @@ class HomeScreen extends ConsumerWidget {
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (_, _) => const SizedBox.shrink(),
               data: (balances) {
+                if (balances.isEmpty) {
+                  return _HomeEmptyState();
+                }
+
                 final assets =
                     balances.where((b) => b.type == AccountType.asset).toList();
                 final liabilities = balances
@@ -202,6 +208,48 @@ class _BalanceTile extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
         ),
+      ),
+    );
+  }
+}
+
+class _HomeEmptyState extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        children: [
+          Icon(
+            Icons.account_balance_wallet_outlined,
+            size: 64,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            l10n.homeEmptyTitle,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            l10n.homeEmptySubtitle,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+          const SizedBox(height: 24),
+          FilledButton.icon(
+            onPressed: () => context.push(RoutePaths.presetSetup),
+            icon: const Icon(Icons.playlist_add),
+            label: Text(l10n.presetSetupButton),
+          ),
+          const SizedBox(height: 8),
+          TextButton(
+            onPressed: () => context.push(RoutePaths.accountForm),
+            child: Text(l10n.addManually),
+          ),
+        ],
       ),
     );
   }

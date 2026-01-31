@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zan/config/router/route_names.dart';
 import 'package:zan/core/constants/enums.dart';
+import 'package:zan/core/extensions/enum_l10n_extensions.dart';
 import 'package:zan/domain/entities/account.dart';
 import 'package:zan/generated/l10n/app_localizations.dart';
 import 'package:zan/presentation/providers/account_provider.dart';
@@ -47,7 +48,7 @@ class AccountListScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Text(
-                      _typeLabel(entry.key, l10n),
+                      entry.key.label(l10n),
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
@@ -67,15 +68,6 @@ class AccountListScreen extends ConsumerWidget {
     );
   }
 
-  String _typeLabel(AccountType type, AppLocalizations l10n) {
-    return switch (type) {
-      AccountType.asset => l10n.asset,
-      AccountType.liability => l10n.liability,
-      AccountType.expense => l10n.expense,
-      AccountType.income => l10n.income,
-      AccountType.equity => l10n.equity,
-    };
-  }
 }
 
 class _AccountTile extends StatelessWidget {
@@ -93,10 +85,10 @@ class _AccountTile extends StatelessWidget {
           child: const Icon(Icons.account_balance_wallet, color: Colors.white, size: 20),
         ),
         title: Text(account.name),
-        subtitle: Text(account.category.name),
+        subtitle: Text(account.category.label(AppLocalizations.of(context))),
         trailing: account.isArchived
             ? Chip(
-                label: const Text('Archived'),
+                label: Text(AppLocalizations.of(context).archived),
                 backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
               )
             : null,

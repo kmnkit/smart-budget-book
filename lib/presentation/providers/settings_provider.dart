@@ -34,6 +34,16 @@ class SettingsNotifier extends _$SettingsNotifier {
     );
   }
 
+  Future<void> deleteAccount() async {
+    state = const AsyncLoading();
+    final result =
+        await ref.read(deleteAccountUseCaseProvider).call(const NoParams());
+    state = result.when(
+      success: (_) => const AsyncData(null),
+      failure: (f) => AsyncError(f.message, StackTrace.current),
+    );
+  }
+
   Future<void> updateDefaultPaymentMethod(String accountId) async {
     final userId = ref.read(currentUserIdProvider);
     if (userId == null) return;

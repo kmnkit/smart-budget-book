@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zan/config/di/account_providers.dart';
 import 'package:zan/core/constants/enums.dart';
+import 'package:zan/core/extensions/enum_l10n_extensions.dart';
 import 'package:zan/domain/entities/account.dart';
 import 'package:zan/generated/l10n/app_localizations.dart';
 import 'package:zan/presentation/providers/account_provider.dart';
@@ -147,7 +148,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
               controller: _nameController,
               decoration: InputDecoration(labelText: l10n.accountName),
               validator: (v) =>
-                  v == null || v.trim().isEmpty ? 'Name is required' : null,
+                  v == null || v.trim().isEmpty ? l10n.nameRequired : null,
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<AccountType>(
@@ -155,7 +156,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
               decoration: InputDecoration(labelText: l10n.accountType),
               items: AccountType.values
                   .where((t) => t != AccountType.equity)
-                  .map((t) => DropdownMenuItem(value: t, child: Text(t.name)))
+                  .map((t) => DropdownMenuItem(value: t, child: Text(t.label(l10n))))
                   .toList(),
               onChanged: isEditing
                   ? null
@@ -172,10 +173,10 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
             const SizedBox(height: 16),
             DropdownButtonFormField<AccountCategory>(
               initialValue: _selectedCategory,
-              decoration: const InputDecoration(labelText: 'Category'),
+              decoration: InputDecoration(labelText: l10n.category),
               items: AccountCategory.values
                   .where((c) => c.accountType == _selectedType)
-                  .map((c) => DropdownMenuItem(value: c, child: Text(c.name)))
+                  .map((c) => DropdownMenuItem(value: c, child: Text(c.label(l10n))))
                   .toList(),
               onChanged: isEditing
                   ? null
@@ -186,7 +187,11 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
             const SizedBox(height: 16),
             TextFormField(
               controller: _initialBalanceController,
-              decoration: InputDecoration(labelText: l10n.initialBalance),
+              decoration: InputDecoration(
+                labelText: _selectedType == AccountType.liability
+                    ? l10n.outstandingBalance
+                    : l10n.initialBalance,
+              ),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
