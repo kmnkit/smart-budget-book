@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:zan/config/di/transaction_providers.dart';
 import 'package:zan/core/constants/enums.dart';
 import 'package:zan/core/utils/currency_formatter.dart';
+import 'package:zan/core/utils/transaction_type_helper.dart';
 import 'package:zan/domain/entities/account.dart';
 import 'package:zan/generated/l10n/app_localizations.dart';
 import 'package:zan/presentation/providers/account_provider.dart';
@@ -13,19 +15,65 @@ class TransactionInputScreen extends ConsumerStatefulWidget {
   final String? transactionId;
 
   @override
-  ConsumerState<TransactionInputScreen> createState() => _TransactionInputScreenState();
+  ConsumerState<TransactionInputScreen> createState() =>
+      _TransactionInputScreenState();
 }
 
-class _TransactionInputScreenState extends ConsumerState<TransactionInputScreen> {
+class _TransactionInputScreenState extends ConsumerState<TransactionInputScreen>
+    with SingleTickerProviderStateMixin {
   final _descriptionController = TextEditingController();
   final _noteController = TextEditingController();
   String _amountText = '0';
+  late final TabController _tabController;
+  bool _initialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_onTabChanged);
+  }
 
   @override
   void dispose() {
+    _tabController.removeListener(_onTabChanged);
+    _tabController.dispose();
     _descriptionController.dispose();
     _noteController.dispose();
     super.dispose();
+  }
+
+  void _onTabChanged() {
+    if (_tabController.indexIsChanging) return;
+    final type = TransactionType.values[_tabController.index];
+    ref.read(transactionFormNotifierProvider.notifier).setTransactionType(type);
+  }
+
+  Future<void> _loadExistingTransaction() async {
+    if (widget.transactionId == null || _initialized) return;
+    _initialized = true;
+
+    final repo = ref.read(transactionRepositoryProvider);
+    final result = await repo.getTransaction(widget.transactionId!);
+    final accounts = await ref.read(accountListProvider.future);
+
+    result.when(
+      success: (transaction) {
+        final notifier = ref.read(transactionFormNotifierProvider.notifier);
+        notifier.loadFromTransaction(transaction, accounts);
+
+        final formState = ref.read(transactionFormNotifierProvider);
+        _amountText = formState.amount > 0 ? formState.amount.toString() : '0';
+        _descriptionController.text = formState.description ?? '';
+        _noteController.text = formState.note ?? '';
+
+        if (mounted) {
+          setState(() {});
+          _tabController.animateTo(formState.transactionType.index);
+        }
+      },
+      failure: (_) {},
+    );
   }
 
   void _onKeypadTap(String key) {
@@ -47,24 +95,40 @@ class _TransactionInputScreenState extends ConsumerState<TransactionInputScreen>
       }
     });
     ref.read(transactionFormNotifierProvider.notifier).setAmount(
-      int.tryParse(_amountText) ?? 0,
-    );
+          int.tryParse(_amountText) ?? 0,
+        );
   }
 
-  Future<void> _selectAccount({required bool isDebit}) async {
+  Future<void> _selectAccountForField({required int field}) async {
+    final formState = ref.read(transactionFormNotifierProvider);
+    final config = formState.transactionType.accountFieldConfig;
+    final allowedTypes =
+        field == 1 ? config.field1AllowedTypes : config.field2AllowedTypes;
+
     final accounts = await ref.read(accountListProvider.future);
+    final filtered =
+        accounts.where((a) => allowedTypes.contains(a.type)).toList();
     if (!mounted) return;
+
+    final l10n = AppLocalizations.of(context);
+    final title = field == 1
+        ? formState.transactionType.field1Label(l10n)
+        : formState.transactionType.field2Label(l10n);
 
     final selected = await showModalBottomSheet<Account>(
       context: context,
       builder: (context) => _AccountSelectorSheet(
-        accounts: accounts,
-        title: isDebit ? 'From (Debit)' : 'To (Credit)',
+        accounts: filtered,
+        title: title,
       ),
     );
 
     if (selected != null) {
       final notifier = ref.read(transactionFormNotifierProvider.notifier);
+      // Determine whether this field maps to debit or credit
+      final isDebit =
+          (field == 1 && config.field1IsDebit) ||
+          (field == 2 && !config.field1IsDebit);
       if (isDebit) {
         notifier.setDebitAccount(selected.id);
       } else {
@@ -105,11 +169,25 @@ class _TransactionInputScreenState extends ConsumerState<TransactionInputScreen>
     }
   }
 
+  /// Resolve the account ID displayed in a field, considering the mapping direction.
+  String? _accountIdForField(TransactionFormState formState, int field) {
+    final config = formState.transactionType.accountFieldConfig;
+    final isDebit =
+        (field == 1 && config.field1IsDebit) ||
+        (field == 2 && !config.field1IsDebit);
+    return isDebit ? formState.debitAccountId : formState.creditAccountId;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final formState = ref.watch(transactionFormNotifierProvider);
     final accountsAsync = ref.watch(accountListProvider);
+
+    // Load existing transaction on first build
+    if (widget.transactionId != null && !_initialized) {
+      _loadExistingTransaction();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -120,6 +198,12 @@ class _TransactionInputScreenState extends ConsumerState<TransactionInputScreen>
             child: Text(l10n.save),
           ),
         ],
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: TransactionType.values
+              .map((t) => Tab(text: t.label(l10n)))
+              .toList(),
+        ),
       ),
       body: Column(
         children: [
@@ -140,10 +224,10 @@ class _TransactionInputScreenState extends ConsumerState<TransactionInputScreen>
               children: [
                 Expanded(
                   child: _AccountButton(
-                    label: l10n.from,
-                    accountId: formState.debitAccountId,
+                    label: formState.transactionType.field1Label(l10n),
+                    accountId: _accountIdForField(formState, 1),
                     accounts: accountsAsync.valueOrNull ?? [],
-                    onTap: () => _selectAccount(isDebit: true),
+                    onTap: () => _selectAccountForField(field: 1),
                   ),
                 ),
                 const Padding(
@@ -152,10 +236,10 @@ class _TransactionInputScreenState extends ConsumerState<TransactionInputScreen>
                 ),
                 Expanded(
                   child: _AccountButton(
-                    label: l10n.to,
-                    accountId: formState.creditAccountId,
+                    label: formState.transactionType.field2Label(l10n),
+                    accountId: _accountIdForField(formState, 2),
                     accounts: accountsAsync.valueOrNull ?? [],
-                    onTap: () => _selectAccount(isDebit: false),
+                    onTap: () => _selectAccountForField(field: 2),
                   ),
                 ),
               ],
@@ -289,22 +373,26 @@ class _AccountSelectorSheet extends StatelessWidget {
                 children: grouped.entries.expand((entry) {
                   return [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       child: Text(
                         entry.key.name.toUpperCase(),
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.labelMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                       ),
                     ),
                     ...entry.value.map(
                       (account) => ListTile(
                         leading: CircleAvatar(
                           backgroundColor: Color(
-                            int.parse(account.color.replaceFirst('#', '0xFF')),
+                            int.parse(
+                                account.color.replaceFirst('#', '0xFF')),
                           ),
                           radius: 16,
-                          child: const Icon(Icons.account_balance_wallet, size: 16, color: Colors.white),
+                          child: const Icon(Icons.account_balance_wallet,
+                              size: 16, color: Colors.white),
                         ),
                         title: Text(account.name),
                         onTap: () => Navigator.pop(context, account),

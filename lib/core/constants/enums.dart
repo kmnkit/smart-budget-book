@@ -89,6 +89,12 @@ enum AccountCategory {
   }
 }
 
+enum TransactionType {
+  expense,
+  income,
+  transfer;
+}
+
 enum SourceType {
   manual,
   textAi,

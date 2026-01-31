@@ -1,13 +1,19 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:zan/config/di/transaction_providers.dart';
 import 'package:zan/core/constants/enums.dart';
+import 'package:zan/core/utils/transaction_type_helper.dart';
+import 'package:zan/domain/entities/account.dart';
 import 'package:zan/domain/entities/transaction.dart';
 import 'package:zan/presentation/providers/auth_provider.dart';
+import 'package:zan/presentation/providers/dashboard_provider.dart';
+import 'package:zan/presentation/providers/report_provider.dart';
+import 'package:zan/presentation/providers/transaction_list_provider.dart';
 
 part 'transaction_form_provider.g.dart';
 
 class TransactionFormState {
   const TransactionFormState({
+    this.transactionType = TransactionType.expense,
     this.debitAccountId,
     this.creditAccountId,
     this.amount = 0,
@@ -18,6 +24,7 @@ class TransactionFormState {
     this.error,
   });
 
+  final TransactionType transactionType;
   final String? debitAccountId;
   final String? creditAccountId;
   final int amount;
@@ -28,6 +35,7 @@ class TransactionFormState {
   final String? error;
 
   TransactionFormState copyWith({
+    TransactionType? transactionType,
     String? debitAccountId,
     String? creditAccountId,
     int? amount,
@@ -38,6 +46,7 @@ class TransactionFormState {
     String? error,
   }) {
     return TransactionFormState(
+      transactionType: transactionType ?? this.transactionType,
       debitAccountId: debitAccountId ?? this.debitAccountId,
       creditAccountId: creditAccountId ?? this.creditAccountId,
       amount: amount ?? this.amount,
@@ -45,6 +54,21 @@ class TransactionFormState {
       description: description ?? this.description,
       note: note ?? this.note,
       isLoading: isLoading ?? this.isLoading,
+      error: error,
+    );
+  }
+
+  /// Create a copy with account IDs explicitly cleared to null.
+  TransactionFormState clearAccounts() {
+    return TransactionFormState(
+      transactionType: transactionType,
+      debitAccountId: null,
+      creditAccountId: null,
+      amount: amount,
+      date: date,
+      description: description,
+      note: note,
+      isLoading: isLoading,
       error: error,
     );
   }
@@ -60,6 +84,11 @@ class TransactionFormState {
 class TransactionFormNotifier extends _$TransactionFormNotifier {
   @override
   TransactionFormState build() => TransactionFormState(date: DateTime.now());
+
+  void setTransactionType(TransactionType type) {
+    if (type == state.transactionType) return;
+    state = state.clearAccounts().copyWith(transactionType: type);
+  }
 
   void setDebitAccount(String id) {
     state = state.copyWith(debitAccountId: id);
@@ -85,8 +114,23 @@ class TransactionFormNotifier extends _$TransactionFormNotifier {
     state = state.copyWith(note: note);
   }
 
-  void loadFromTransaction(Transaction transaction) {
+  /// Load from an existing transaction for editing.
+  /// Infers the TransactionType from the account types.
+  void loadFromTransaction(Transaction transaction, List<Account> accounts) {
+    final debitAccount =
+        accounts.where((a) => a.id == transaction.debitAccountId).firstOrNull;
+    final creditAccount =
+        accounts.where((a) => a.id == transaction.creditAccountId).firstOrNull;
+
+    final type = (debitAccount != null && creditAccount != null)
+        ? inferTransactionType(
+            debitType: debitAccount.type,
+            creditType: creditAccount.type,
+          )
+        : TransactionType.expense;
+
     state = TransactionFormState(
+      transactionType: type,
       debitAccountId: transaction.debitAccountId,
       creditAccountId: transaction.creditAccountId,
       amount: transaction.amount,
@@ -127,6 +171,7 @@ class TransactionFormNotifier extends _$TransactionFormNotifier {
     return result.when(
       success: (_) {
         state = state.copyWith(isLoading: false);
+        _invalidateTransactionDependents();
         return true;
       },
       failure: (f) {
@@ -134,5 +179,15 @@ class TransactionFormNotifier extends _$TransactionFormNotifier {
         return false;
       },
     );
+  }
+
+  void _invalidateTransactionDependents() {
+    ref.invalidate(accountBalancesProvider);
+    ref.invalidate(currentMonthSummaryProvider);
+    ref.invalidate(transactionListProvider);
+    ref.invalidate(recentTransactionsProvider);
+    ref.invalidate(monthlyReportProvider);
+    ref.invalidate(categoryBreakdownProvider);
+    ref.invalidate(previousMonthSummaryProvider);
   }
 }
