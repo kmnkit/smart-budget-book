@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zan - Terms of Service</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .lang-tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+            border-bottom: 2px solid #e9ecef;
+            padding: 0 20px;
+        }
+
+        .lang-tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin: 0 5px;
+        }
+
+        .lang-tab:hover {
+            color: #667eea;
+        }
+
+        .lang-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .content {
+            padding: 40px 20px;
+        }
+
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .meta {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #667eea;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #495057;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: #667eea;
+            color: #fff;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e9ecef;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #2c3e50;
+            color: #fff;
+        }
+
+        footer p {
+            margin-bottom: 5px;
+            color: #ecf0f1;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .lang-tab {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            .content {
+                padding: 30px 15px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Zan</div>
+            <div class="subtitle">Smart Personal Finance</div>
+        </header>
+
+        <div class="lang-tabs">
+            <button class="lang-tab" data-lang="ko">한국어</button>
+            <button class="lang-tab active" data-lang="en">English</button>
+            <button class="lang-tab" data-lang="ja">日本語</button>
+        </div>
+
+        <div class="content">
+            <!-- Korean Content -->
+            <div class="lang-content" id="ko">
+                <h1>Zan 이용약관</h1>
+                <div class="meta">
+                    <p>최종 수정일: 2026년 2월 1일<br>시행일: 2026년 2월 1일</p>
+                </div>
+
+                <h2>1. 목적</h2>
+                <p>본 약관은 Asset Lite(이하 "회사")가 제공하는 Zan 앱(이하 "서비스")의 이용 조건 및 절차, 회사와 이용자 간의 권리·의무를 규정합니다.</p>
+
+                <h2>2. 서비스 설명</h2>
+                <p>Zan은 개인 자산 관리를 위한 모바일 앱입니다. 주요 기능은 다음과 같습니다.</p>
+                <ul>
+                    <li>복식부기 기반 거래 기록 (사용자에게는 "From → To" 방식으로 표시)</li>
+                    <li>자산, 부채, 수입, 지출 계좌 관리</li>
+                    <li>월간 리포트 및 지출 분석</li>
+                    <li>다중 통화 지원</li>
+                </ul>
+                <p>본 서비스는 금융기관과 연동하지 않으며, 실제 금융 거래를 수행하지 않습니다. 사용자가 입력하는 모든 데이터는 개인 기록 목적으로만 사용됩니다.</p>
+
+                <h2>3. 이용자 계정</h2>
+                <h3>가. 가입</h3>
+                <ul>
+                    <li>서비스 이용을 위해 Google 또는 Apple 소셜 로그인을 통한 계정 생성이 필요합니다.</li>
+                    <li>이용자는 정확한 정보를 제공해야 하며, 타인의 계정을 사용해서는 안 됩니다.</li>
+                </ul>
+
+                <h3>나. 계정 관리</h3>
+                <ul>
+                    <li>이용자는 자신의 계정 보안에 대한 책임이 있습니다.</li>
+                    <li>비정상적인 접근이 발견된 경우 즉시 회사에 알려야 합니다.</li>
+                </ul>
+
+                <h3>다. 계정 삭제</h3>
+                <ul>
+                    <li>이용자는 언제든지 앱 내 설정에서 계정을 삭제할 수 있습니다.</li>
+                    <li>계정 삭제 시 모든 데이터는 30일 이내에 영구 삭제됩니다.</li>
+                </ul>
+
+                <h2>4. 구독 및 결제</h2>
+                <h3>가. 무료 기능</h3>
+                <ul>
+                    <li>기본 거래 기록 및 조회</li>
+                    <li>계좌 관리 (최대 5개)</li>
+                    <li>기본 월간 리포트</li>
+                </ul>
+
+                <h3>나. 프리미엄 구독 (Zan Pro)</h3>
+                <ul>
+                    <li>무제한 계좌</li>
+                    <li>상세 분석 및 차트</li>
+                    <li>데이터 내보내기</li>
+                    <li>우선 고객 지원</li>
+                </ul>
+
+                <h3>다. 결제 조건</h3>
+                <ul>
+                    <li>구독은 Apple App Store 또는 Google Play를 통해 처리됩니다.</li>
+                    <li>구독은 취소하지 않는 한 자동 갱신됩니다.</li>
+                    <li>환불은 해당 스토어의 환불 정책을 따릅니다.</li>
+                </ul>
+
+                <h3>라. 구독 복원</h3>
+                <ul>
+                    <li>기기 변경 시 "구매 복원" 기능을 통해 기존 구독을 복원할 수 있습니다.</li>
+                </ul>
+
+                <h2>5. 이용자 의무</h2>
+                <p>이용자는 다음 행위를 해서는 안 됩니다.</p>
+                <ul>
+                    <li>서비스를 불법적인 목적으로 사용</li>
+                    <li>서비스의 정상적인 운영을 방해</li>
+                    <li>다른 이용자의 개인정보를 무단 수집</li>
+                    <li>서비스를 리버스 엔지니어링, 디컴파일 또는 분해</li>
+                    <li>서비스를 통해 악성 소프트웨어를 배포</li>
+                </ul>
+
+                <h2>6. 지적재산권</h2>
+                <ul>
+                    <li>서비스의 모든 콘텐츠, 디자인, 코드, 로고는 회사의 지적재산입니다.</li>
+                    <li>이용자가 입력한 데이터에 대한 권리는 이용자에게 있습니다.</li>
+                    <li>이용자는 서비스를 개인적, 비상업적 목적으로만 사용할 수 있습니다.</li>
+                </ul>
+
+                <h2>7. 서비스 변경 및 중단</h2>
+                <ul>
+                    <li>회사는 서비스 개선을 위해 사전 공지 후 서비스 내용을 변경할 수 있습니다.</li>
+                    <li>천재지변, 시스템 장애 등 불가항력적 사유로 서비스가 중단될 수 있습니다.</li>
+                    <li>서비스를 영구 중단하는 경우, 최소 30일 전에 공지하며 데이터 내보내기 기간을 제공합니다.</li>
+                </ul>
+
+                <h2>8. 면책 조항</h2>
+                <ul>
+                    <li>서비스는 "있는 그대로(AS IS)" 제공됩니다.</li>
+                    <li>회사는 서비스의 정확성, 완전성, 신뢰성에 대해 보증하지 않습니다.</li>
+                    <li>서비스는 금융 자문을 제공하지 않습니다. 투자 또는 재무 결정은 전문가와 상담하시기 바랍니다.</li>
+                    <li>이용자가 입력한 데이터의 정확성에 대한 책임은 이용자에게 있습니다.</li>
+                </ul>
+
+                <h2>9. 책임 제한</h2>
+                <p>관련 법률이 허용하는 최대 범위 내에서, 회사는 서비스 사용으로 인한 직접적, 간접적, 우발적, 특수적, 결과적 손해에 대해 책임을 지지 않습니다.</p>
+
+                <h2>10. 분쟁 해결</h2>
+                <ul>
+                    <li>본 약관은 대한민국 법률에 따라 해석됩니다.</li>
+                    <li>서비스 관련 분쟁은 회사 소재지 관할 법원에서 해결합니다.</li>
+                </ul>
+
+                <h2>11. 약관 변경</h2>
+                <ul>
+                    <li>회사는 필요 시 약관을 변경할 수 있습니다.</li>
+                    <li>변경 시 앱 내 공지 또는 이메일을 통해 최소 7일 전에 안내합니다.</li>
+                    <li>변경된 약관에 동의하지 않는 경우, 이용자는 서비스 이용을 중단하고 계정을 삭제할 수 있습니다.</li>
+                </ul>
+
+                <h2>12. 연락처</h2>
+                <ul>
+                    <li>이메일: support@assetlite.com</li>
+                    <li>앱 내 설정 &gt; 문의하기</li>
+                </ul>
+            </div>
+
+            <!-- English Content -->
+            <div class="lang-content active" id="en">
+                <h1>Zan Terms of Service</h1>
+                <div class="meta">
+                    <p>Last Updated: February 1, 2026<br>Effective Date: February 1, 2026</p>
+                </div>
+
+                <h2>1. Purpose</h2>
+                <p>These Terms of Service ("Terms") govern your use of the Zan mobile application ("Service") operated by Asset Lite ("Company", "we", "us", or "our"). By using the Service, you agree to be bound by these Terms.</p>
+
+                <h2>2. Service Description</h2>
+                <p>Zan is a personal finance management mobile application. Key features include:</p>
+                <ul>
+                    <li>Double-entry bookkeeping transaction recording (displayed as simple "From → To" transfers)</li>
+                    <li>Asset, liability, income, and expense account management</li>
+                    <li>Monthly reports and spending analysis</li>
+                    <li>Multi-currency support</li>
+                </ul>
+                <p>The Service does NOT connect to financial institutions and does NOT perform actual financial transactions. All data entered by users is for personal record-keeping purposes only.</p>
+
+                <h2>3. User Accounts</h2>
+                <h3>a. Registration</h3>
+                <ul>
+                    <li>A Google or Apple social login account is required to use the Service.</li>
+                    <li>You must provide accurate information and may not use another person's account.</li>
+                </ul>
+
+                <h3>b. Account Security</h3>
+                <ul>
+                    <li>You are responsible for maintaining the security of your account.</li>
+                    <li>You must notify us immediately if you discover unauthorized access.</li>
+                </ul>
+
+                <h3>c. Account Deletion</h3>
+                <ul>
+                    <li>You may delete your account at any time through the app settings.</li>
+                    <li>Upon account deletion, all data will be permanently removed within 30 days.</li>
+                </ul>
+
+                <h2>4. Subscriptions and Payments</h2>
+                <h3>a. Free Features</h3>
+                <ul>
+                    <li>Basic transaction recording and viewing</li>
+                    <li>Account management (up to 5 accounts)</li>
+                    <li>Basic monthly reports</li>
+                </ul>
+
+                <h3>b. Premium Subscription (Zan Pro)</h3>
+                <ul>
+                    <li>Unlimited accounts</li>
+                    <li>Detailed analytics and charts</li>
+                    <li>Data export</li>
+                    <li>Priority customer support</li>
+                </ul>
+
+                <h3>c. Payment Terms</h3>
+                <ul>
+                    <li>Subscriptions are processed through the Apple App Store or Google Play.</li>
+                    <li>Subscriptions automatically renew unless cancelled.</li>
+                    <li>Refunds are subject to the respective store's refund policy.</li>
+                </ul>
+
+                <h3>d. Restore Purchases</h3>
+                <ul>
+                    <li>You can restore existing subscriptions on a new device using the "Restore Purchases" feature.</li>
+                </ul>
+
+                <h2>5. User Obligations</h2>
+                <p>You agree NOT to:</p>
+                <ul>
+                    <li>Use the Service for any illegal purpose</li>
+                    <li>Interfere with the normal operation of the Service</li>
+                    <li>Collect other users' personal information without authorization</li>
+                    <li>Reverse engineer, decompile, or disassemble the Service</li>
+                    <li>Distribute malicious software through the Service</li>
+                </ul>
+
+                <h2>6. Intellectual Property</h2>
+                <ul>
+                    <li>All content, design, code, and logos of the Service are the intellectual property of the Company.</li>
+                    <li>You retain all rights to the data you enter into the Service.</li>
+                    <li>You may use the Service only for personal, non-commercial purposes.</li>
+                </ul>
+
+                <h2>7. Service Modifications and Discontinuation</h2>
+                <ul>
+                    <li>We may modify the Service with prior notice to improve functionality.</li>
+                    <li>The Service may be interrupted due to force majeure events or system failures.</li>
+                    <li>If we permanently discontinue the Service, we will provide at least 30 days' notice and a data export period.</li>
+                </ul>
+
+                <h2>8. Disclaimer of Warranties</h2>
+                <ul>
+                    <li>The Service is provided "AS IS" without warranties of any kind.</li>
+                    <li>We do not guarantee the accuracy, completeness, or reliability of the Service.</li>
+                    <li>The Service does NOT provide financial advice. Consult a qualified professional for investment or financial decisions.</li>
+                    <li>You are responsible for the accuracy of the data you enter.</li>
+                </ul>
+
+                <h2>9. Limitation of Liability</h2>
+                <p>To the maximum extent permitted by applicable law, the Company shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from your use of the Service.</p>
+
+                <h2>10. Governing Law</h2>
+                <ul>
+                    <li>These Terms shall be governed by and construed in accordance with the laws of the Republic of Korea.</li>
+                    <li>Any disputes related to the Service shall be resolved in the courts of the Company's jurisdiction.</li>
+                </ul>
+
+                <h2>11. Changes to These Terms</h2>
+                <ul>
+                    <li>We may update these Terms as needed.</li>
+                    <li>We will notify you of changes at least 7 days in advance via in-app notification or email.</li>
+                    <li>If you do not agree to the updated Terms, you may discontinue use of the Service and delete your account.</li>
+                </ul>
+
+                <h2>12. Contact Us</h2>
+                <ul>
+                    <li>Email: support@assetlite.com</li>
+                    <li>In-app: Settings &gt; Contact Us</li>
+                </ul>
+            </div>
+
+            <!-- Japanese Content -->
+            <div class="lang-content" id="ja">
+                <h1>Zan 利用規約</h1>
+                <div class="meta">
+                    <p>最終更新日: 2026年2月1日<br>施行日: 2026年2月1日</p>
+                </div>
+
+                <h2>1. 目的</h2>
+                <p>本利用規約（以下「本規約」）は、Asset Lite（以下「当社」）が提供するZanアプリ（以下「本サービス」）の利用条件および手続き、当社とユーザー間の権利・義務を規定します。</p>
+
+                <h2>2. サービスの説明</h2>
+                <p>Zanは、個人の資産管理のためのモバイルアプリです。主な機能は以下の通りです。</p>
+                <ul>
+                    <li>複式簿記ベースの取引記録（ユーザーには「From → To」方式で表示）</li>
+                    <li>資産、負債、収入、支出アカウントの管理</li>
+                    <li>月次レポートおよび支出分析</li>
+                    <li>複数通貨のサポート</li>
+                </ul>
+                <p>本サービスは金融機関と連携せず、実際の金融取引を行いません。ユーザーが入力するすべてのデータは、個人的な記録目的にのみ使用されます。</p>
+
+                <h2>3. ユーザーアカウント</h2>
+                <h3>ア. 登録</h3>
+                <ul>
+                    <li>本サービスの利用には、GoogleまたはAppleのソーシャルログインによるアカウント作成が必要です。</li>
+                    <li>ユーザーは正確な情報を提供し、他者のアカウントを使用してはなりません。</li>
+                </ul>
+
+                <h3>イ. アカウント管理</h3>
+                <ul>
+                    <li>ユーザーは自身のアカウントのセキュリティに責任を負います。</li>
+                    <li>不正なアクセスを発見した場合は、直ちに当社に通知してください。</li>
+                </ul>
+
+                <h3>ウ. アカウント削除</h3>
+                <ul>
+                    <li>ユーザーはいつでもアプリ内の設定からアカウントを削除できます。</li>
+                    <li>アカウント削除時、すべてのデータは30日以内に永久削除されます。</li>
+                </ul>
+
+                <h2>4. サブスクリプションおよび支払い</h2>
+                <h3>ア. 無料機能</h3>
+                <ul>
+                    <li>基本的な取引記録および閲覧</li>
+                    <li>アカウント管理（最大5件）</li>
+                    <li>基本的な月次レポート</li>
+                </ul>
+
+                <h3>イ. プレミアムサブスクリプション（Zan Pro）</h3>
+                <ul>
+                    <li>無制限のアカウント</li>
+                    <li>詳細な分析およびチャート</li>
+                    <li>データエクスポート</li>
+                    <li>優先カスタマーサポート</li>
+                </ul>
+
+                <h3>ウ. 支払い条件</h3>
+                <ul>
+                    <li>サブスクリプションはApple App StoreまたはGoogle Playを通じて処理されます。</li>
+                    <li>サブスクリプションはキャンセルしない限り自動更新されます。</li>
+                    <li>返金は各ストアの返金ポリシーに従います。</li>
+                </ul>
+
+                <h3>エ. 購入の復元</h3>
+                <ul>
+                    <li>デバイス変更時、「購入を復元」機能を使用して既存のサブスクリプションを復元できます。</li>
+                </ul>
+
+                <h2>5. ユーザーの義務</h2>
+                <p>ユーザーは以下の行為を行ってはなりません。</p>
+                <ul>
+                    <li>違法な目的でのサービスの使用</li>
+                    <li>サービスの正常な運営の妨害</li>
+                    <li>他のユーザーの個人情報の無断収集</li>
+                    <li>サービスのリバースエンジニアリング、逆コンパイルまたは逆アセンブル</li>
+                    <li>サービスを通じた悪意のあるソフトウェアの配布</li>
+                </ul>
+
+                <h2>6. 知的財産権</h2>
+                <ul>
+                    <li>サービスのすべてのコンテンツ、デザイン、コード、ロゴは当社の知的財産です。</li>
+                    <li>ユーザーが入力したデータに対する権利はユーザーに帰属します。</li>
+                    <li>ユーザーはサービスを個人的かつ非商業的な目的でのみ使用できます。</li>
+                </ul>
+
+                <h2>7. サービスの変更および中断</h2>
+                <ul>
+                    <li>当社は、機能改善のために事前通知の上、サービス内容を変更することがあります。</li>
+                    <li>不可抗力やシステム障害によりサービスが中断される場合があります。</li>
+                    <li>サービスを永久に終了する場合、最低30日前に通知し、データエクスポート期間を提供します。</li>
+                </ul>
+
+                <h2>8. 免責事項</h2>
+                <ul>
+                    <li>サービスは「現状のまま（AS IS）」で提供されます。</li>
+                    <li>当社はサービスの正確性、完全性、信頼性について保証しません。</li>
+                    <li>サービスは金融アドバイスを提供しません。投資または財務上の決定については、専門家にご相談ください。</li>
+                    <li>ユーザーが入力したデータの正確性についてはユーザーが責任を負います。</li>
+                </ul>
+
+                <h2>9. 責任の制限</h2>
+                <p>適用法が許容する最大限の範囲内で、当社はサービスの使用から生じる直接的、間接的、偶発的、特別、結果的損害について責任を負いません。</p>
+
+                <h2>10. 準拠法</h2>
+                <ul>
+                    <li>本規約は大韓民国の法律に準拠し解釈されます。</li>
+                    <li>サービスに関する紛争は、当社の所在地を管轄する裁判所で解決します。</li>
+                </ul>
+
+                <h2>11. 規約の変更</h2>
+                <ul>
+                    <li>当社は必要に応じて本規約を変更することがあります。</li>
+                    <li>変更時、アプリ内通知またはメールにて最低7日前にご案内します。</li>
+                    <li>変更された規約に同意しない場合、ユーザーはサービスの利用を中止し、アカウントを削除することができます。</li>
+                </ul>
+
+                <h2>12. お問い合わせ</h2>
+                <ul>
+                    <li>メールアドレス：support@assetlite.com</li>
+                    <li>アプリ内の設定 &gt; お問い合わせ</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Asset Lite. All rights reserved.</p>
+            <p><a href="mailto:support@assetlite.com">support@assetlite.com</a></p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.lang-tab');
+            const contents = document.querySelectorAll('.lang-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetLang = this.getAttribute('data-lang');
+
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(targetLang).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
