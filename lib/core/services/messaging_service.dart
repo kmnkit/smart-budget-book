@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:zan/core/services/crashlytics_service.dart';
 
@@ -64,12 +65,8 @@ class MessagingService {
     try {
       final token = await _messaging.getToken();
       _currentToken = token;
-      _logger.d('FCM: 토큰 = $token');
-
-      if (token != null) {
-        try {
-          await CrashlyticsService.instance.setCustomKey('fcm_token', token);
-        } catch (_) {}
+      if (kDebugMode) {
+        _logger.d('FCM: 토큰 수신 완료 (${token?.substring(0, 8)}...)');
       }
     } catch (e, stack) {
       _logger.e('FCM: 토큰 가져오기 실패', error: e, stackTrace: stack);
@@ -86,11 +83,9 @@ class MessagingService {
   void _setupTokenRefreshListener() {
     _messaging.onTokenRefresh.listen((token) {
       _currentToken = token;
-      _logger.d('FCM: 토큰 갱신 = $token');
-
-      try {
-        CrashlyticsService.instance.setCustomKey('fcm_token', token);
-      } catch (_) {}
+      if (kDebugMode) {
+        _logger.d('FCM: 토큰 갱신 완료');
+      }
     });
   }
 

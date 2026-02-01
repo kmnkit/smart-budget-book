@@ -89,7 +89,9 @@ bool isPremium(Ref ref) {
 FeatureAccess featureAccess(Ref ref, FeatureType feature) {
   final sub = ref.watch(subscriptionProvider).valueOrNull;
   final quota = ref.watch(usageQuotaProvider).valueOrNull;
-  if (sub == null || quota == null) return FeatureAccess.granted;
+  if (sub == null || quota == null) {
+    return const FeatureAccess(allowed: false, reason: 'loading');
+  }
 
   final useCase = ref.watch(checkFeatureAccessUseCaseProvider);
   return useCase.call(

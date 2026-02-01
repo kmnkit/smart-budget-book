@@ -29,8 +29,7 @@ dependencies:
   # HTTP
   dio: ^5.7.0
 
-  # Environment
-  flutter_dotenv: ^5.2.1
+  # Environment — values injected via --dart-define-from-file
 
   # UI
   google_fonts: ^6.2.1
@@ -95,7 +94,5 @@ flutter:
   generate: true
 
   assets:
-    - .env
-    - .env.production
     - assets/icons/
     - assets/images/
