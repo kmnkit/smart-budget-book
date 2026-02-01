@@ -1,16 +1,41 @@
-# zan
+<p align="center">
+  <img src="assets/icons/app_icon.png" width="120" alt="Zan App Icon" />
+</p>
 
-A new Flutter project.
+<h1 align="center">Zan</h1>
+
+<p align="center">
+  Smart personal finance app with invisible double-entry bookkeeping
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-3.38-02569B?logo=flutter" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Dart-3.10-0175C2?logo=dart" alt="Dart" />
+  <img src="https://img.shields.io/badge/Platform-iOS%20%7C%20Android-lightgrey" alt="Platform" />
+</p>
+
+## Overview
+
+Zan is a personal finance app that makes double-entry bookkeeping invisible. Users see simple **"From → To"** transfers while the system processes proper debit/credit accounting behind the scenes. Primary target markets are Japan and Korea.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+```bash
+# Install dependencies
+flutter pub get
 
-A few resources to get you started if this is your first Flutter project:
+# Run code generation
+dart run build_runner build --delete-conflicting-outputs
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# Run the app (requires .env file)
+flutter run --dart-define-from-file=.env
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tech Stack
+
+- **Framework**: Flutter 3.x (iOS / Android)
+- **State Management**: Riverpod 2.x
+- **Backend**: Supabase (Auth, Database, Storage)
+- **Local DB**: Drift (SQLite)
+- **Firebase**: Analytics, Crashlytics, Cloud Messaging
+- **CI/CD**: GitHub Actions
