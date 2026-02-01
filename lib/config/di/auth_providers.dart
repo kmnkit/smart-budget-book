@@ -17,11 +17,13 @@ part 'auth_providers.g.dart';
 
 @riverpod
 GoogleSignIn googleSignIn(Ref ref) {
+  final webClientId = Env.googleWebClientId;
   return GoogleSignIn(
     // Android: clientId 불필요 (패키지명+SHA1로 자동 매칭)
     // iOS: clientId 필수
     clientId: Platform.isIOS ? Env.googleIosClientId : null,
-    serverClientId: Env.googleWebClientId,
+    serverClientId: webClientId.isNotEmpty ? webClientId : null,
+    scopes: ['email'],
   );
 }
 
