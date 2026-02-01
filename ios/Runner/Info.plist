@@ -52,6 +52,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use this identifier to measure ad campaign effectiveness and improve your experience. You can change this in Settings anytime.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

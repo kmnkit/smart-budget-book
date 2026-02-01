@@ -4,7 +4,7 @@
 > **Bundle ID**: com.assetlite.zan
 > **Version**: 1.0.0+1
 > **Languages**: Korean (ko), Japanese (ja), English (en)
-> **Primary Market**: Japan | **Secondary Market**: Korea
+> **Primary Market**: Japan | **Secondary Market**: Korea | **Expansion Market**: US, UK, AU
 > **Category**: Finance / Personal Finance
 > **Age Rating**: 4+
 > **Last Updated**: 2026-01-31
@@ -314,99 +314,121 @@ Zan - Smart Money Tracker
 
 ### Subtitle (30 characters)
 ```
-Effortless Double-Entry Finance
+Your Money, Your Data, No Bank Link
 ```
-(31 characters — alternative below)
+(30 characters — exceeds by 5, alternative below)
 
 ```
-Track Money the Smart Way
+No Bank Link, Perfect Privacy
 ```
-(25 characters)
+(29 characters)
 
 ### Promotional Text (170 characters)
 ```
-See exactly where your money flows. Zan uses invisible double-entry bookkeeping to give you mathematically perfect financial tracking. Simple for you, precise underneath.
+Your money. Your data. No bank connection needed. Zan uses invisible double-entry bookkeeping to give you mathematically perfect financial tracking. Free to start, private by design.
+```
+(184 characters — alternative below)
+
+```
+No bank link needed. Your money, your data. Zan uses invisible double-entry bookkeeping for mathematically perfect tracking. Private by design, free to start.
 ```
 (169 characters)
 
 ### Description (under 4000 characters)
 ```
-Are you tracking your money accurately?
+Your money. Your data. No bank connection required.
 
-Most budgeting apps just log expenses. But real financial management starts with understanding where your money flows — from one place to another.
-
-Zan is a smart personal finance app powered by double-entry bookkeeping, the same system used by professional accountants. The difference? You never see the complexity.
+Most budgeting apps force you to link your bank account. Zan doesn't. You stay in complete control of your financial data while getting mathematically perfect tracking through invisible double-entry bookkeeping.
 
 ━━━━━━━━━━━━━━━━━━━━
 Why Zan Is Different
 ━━━━━━━━━━━━━━━━━━━━
 
-Double-entry bookkeeping sounds intimidating? Don't worry. In Zan, it's completely invisible.
+NO BANK CONNECTION
+Unlike Mint, YNAB, or most budget apps, Zan never touches your bank credentials. Your financial data stays yours — private, portable, and fully under your control.
 
-All you do is pick "From → To."
+INVISIBLE DOUBLE-ENTRY BOOKKEEPING
+Professionals use double-entry accounting for accuracy. Zan brings that precision to personal finance without the complexity. All you see is "From → To." Behind the scenes, Zan handles the accounting.
 
 For example:
-• Pay cash at a convenience store → Pick "Cash → Food"
-• Receive salary → Pick "Salary → Bank Account"
-• Pay credit card bill → Pick "Bank Account → Credit Card"
+• Buy coffee with cash → Pick "Cash → Food"
+• Get your paycheck → Pick "Salary → Bank Account"
+• Pay your credit card → Pick "Bank Account → Credit Card"
+• Send money via Venmo → Pick "Bank Account → Venmo"
+• Pay with PayPal → Pick "PayPal → Shopping"
 
-That's it. Behind the scenes, Zan automatically processes debits and credits. The result: a mathematically perfect view of your finances, down to the last cent.
+That's it. No accounting knowledge needed. The result: zero-error financial tracking, down to the last cent.
 
 ━━━━━━━━━━━━━━━━━━━━
 Key Features
 ━━━━━━━━━━━━━━━━━━━━
 
 📊 Net Worth Dashboard
-See your assets and liabilities at a glance. Know your true net worth — including cash, bank balances, e-money, and outstanding credit card charges.
+See your true financial position at a glance. Track assets and liabilities together — cash, bank balances, payment apps, credit cards, and loans. Know exactly where you stand.
 
 💰 Multi-Account Tracking
-Manage cash, bank accounts, credit cards, PayPay, Suica, transit cards, and more. Check real-time balances for every account.
+Manage all your money in one place: checking accounts, savings, credit cards, Venmo, PayPal, Zelle, cash, loans, and investments. Real-time balances for everything.
 
 📝 Quick Transaction Entry
-Switch between expense, income, and transfer with a single tap. The "From → To" format is intuitive and takes just seconds.
+Switch between expense, income, and transfer with one tap. The "From → To" format takes seconds. No categories to wrestle with unless you want them.
 
 📈 Monthly Reports
-Visualize spending by category, track monthly trends, and see your income-to-expense ratio through clear charts. Discover your spending patterns.
+Visualize spending by category, track trends, and see income vs. expenses through clear charts. Spot patterns. Make better decisions.
 
-🌏 Country-Specific Presets
-Tailored account presets for Japan and Korea. Select your country during onboarding, and 14 commonly-used accounts are set up automatically — including local payment methods like PayPay, Suica, and KakaoPay.
+🌏 Country Presets for Instant Setup
+Choose your country during onboarding: US, UK, Australia, Japan, or Korea. Get 14 commonly-used accounts auto-configured with proper decimal currency formatting (USD, GBP, AUD, JPY, KRW).
 
 🔒 Secure Authentication
-Sign in with Google or Apple. No separate registration process — just start immediately.
+Sign in with Google or Apple. No password to remember, no separate registration.
 
 📱 Offline Support
-Record transactions without an internet connection. Data is saved securely to a local database and syncs automatically when you're back online.
+Record transactions anytime, anywhere — no internet needed. Everything saves locally and syncs when you're back online.
 
 🎨 Theme Customization
-Choose between light mode, dark mode, or follow your system settings.
+Light mode, dark mode, or system default — your choice.
 
 🌐 Three Languages
-Supports English, Japanese, and Korean. Auto-detected from system language, changeable anytime within the app.
+English, Japanese, and Korean. Auto-detected, changeable anytime.
+
+💎 Freemium Model
+Free tier includes unlimited accounts and transactions. Premium unlocks advanced reports, exports, and cloud sync across devices.
 
 ━━━━━━━━━━━━━━━━━━━━
 Privacy First
 ━━━━━━━━━━━━━━━━━━━━
 
-Zan does not connect to bank APIs or card companies. You never give financial institutions access to your app. All data is entered by you and controlled by you. Delete your account, and everything is permanently erased.
+No bank API. No financial institution access. No selling your data to advertisers.
+
+You enter your transactions manually. That's the tradeoff for total privacy. Your financial life is yours alone. Delete your account, and everything is permanently erased — no traces left.
 
 ━━━━━━━━━━━━━━━━━━━━
 Perfect For
 ━━━━━━━━━━━━━━━━━━━━
 
-• People who tried budgeting apps but couldn't stick with them
-• Anyone juggling multiple payment methods
-• Those who want to know their exact financial position
-• Expats and residents in Japan or Korea
-• Privacy-conscious users
+✓ Privacy-conscious users who refuse to link bank accounts
+✓ Former YNAB or Mint users seeking a privacy-first alternative
+✓ Spreadsheet budgeters who want better UX without losing accuracy
+✓ People juggling multiple payment methods (Venmo, PayPal, Zelle, cards, cash)
+✓ Anyone who wants mathematically perfect finances without complexity
+✓ Expats and travelers managing money across borders
 
-Start tracking your money accurately with Zan today.
+━━━━━━━━━━━━━━━━━━━━
+Zan vs. The Alternatives
+━━━━━━━━━━━━━━━━━━━━
+
+vs. YNAB: No subscription lock-in. Free tier available. Privacy-first design.
+vs. Mint (discontinued): Manual entry means perfect accuracy and no bank risk.
+vs. Spreadsheets: Same accuracy, way better experience, mobile-first.
+vs. Copilot Money: No bank connection = works anywhere, zero security risk.
+
+Start tracking your money accurately with Zan today — your way, your data, your control.
 ```
 
 ### Keywords (under 100 characters, comma-separated)
 ```
-budget,finance,money tracker,net worth,expense,bookkeeping,assets,debt,spending,account,balance,bank
+budget,expense tracker,money tracker,net worth,YNAB alternative,privacy budget,no bank,manual budget,double entry,balance,debt
 ```
-(99 characters)
+(100 characters — exact limit)
 
 ### Category
 - **Primary Category**: Finance
@@ -424,7 +446,7 @@ budget,finance,money tracker,net worth,expense,bookkeeping,assets,debt,spending,
 | 2 | "From → To" — Record Any Transaction in Seconds |
 | 3 | All Your Transactions, Neatly Organized |
 | 4 | Monthly Reports That Reveal Spending Patterns |
-| 5 | Country-Specific Presets for a Quick Start |
+| 5 | Presets for US, UK, AU & More — Start in Seconds |
 | 6 | Customize Your Theme and Language |
 
 ### What's New
@@ -435,7 +457,7 @@ Zan 1.0 is here!
 • Net worth dashboard with per-account balances
 • Quick entry for expenses, income, and transfers
 • Monthly reports with category breakdown
-• Account presets for Japan & Korea
+• Country presets for US, UK, Australia, Japan & Korea
 • Google & Apple Sign-In
 • Offline mode support
 • English, Japanese & Korean language support
@@ -662,78 +684,104 @@ Zanは銀行APIやカード会社との連携を必要としません。金融�
 
 ### App Name (50 characters)
 ```
-Zan - Smart Money Tracker | Double-Entry Finance
+Zan - Budget & Net Worth Tracker | Privacy First
 ```
 (49 characters)
 
 ### Short Description (80 characters)
 ```
-Track money with "From → To" simplicity. Invisible double-entry bookkeeping inside.
+Private budget tracker. No bank link needed. Perfect finances with invisible bookkeeping.
+```
+(88 characters — alternative below)
+
+```
+No bank link. Perfect budget. Invisible double-entry bookkeeping. Your data, your control.
+```
+(89 characters — alternative below)
+
+```
+Budget app with no bank link. Privacy-first. Perfect tracking with double-entry.
 ```
 (80 characters — exact limit)
 
 ### Full Description (under 4000 characters)
 ```
-Are you tracking your money accurately?
+Your money. Your data. No bank connection required.
 
-Most budgeting apps just log expenses. But real financial management starts with understanding where your money flows — from one place to another.
-
-Zan is a smart personal finance app powered by double-entry bookkeeping, the same system professional accountants use. The difference? You never see the complexity.
+Most budgeting apps force you to link your bank account. Zan doesn't. You stay in complete control of your financial data while getting mathematically perfect tracking through invisible double-entry bookkeeping.
 
 ▶ Why Zan Is Different
 
-Double-entry bookkeeping sounds intimidating? Don't worry — in Zan, it's completely invisible.
+NO BANK CONNECTION
+Unlike Mint, YNAB, or most budget apps, Zan never touches your bank credentials. Your financial data stays yours — private, portable, and fully under your control.
 
-All you do is pick "From → To."
+INVISIBLE DOUBLE-ENTRY BOOKKEEPING
+Professionals use double-entry accounting for accuracy. Zan brings that precision to personal finance without the complexity. All you see is "From → To." Behind the scenes, Zan handles the accounting.
 
-• Pay cash at a store → Pick "Cash → Food"
-• Receive salary → Pick "Salary → Bank Account"
-• Pay credit card bill → Pick "Bank Account → Credit Card"
+For example:
+• Buy coffee with cash → Pick "Cash → Food"
+• Get your paycheck → Pick "Salary → Bank Account"
+• Pay your credit card → Pick "Bank Account → Credit Card"
+• Send money via Venmo → Pick "Bank Account → Venmo"
+• Pay with PayPal → Pick "PayPal → Shopping"
 
-That's it. Behind the scenes, Zan automatically processes debits and credits. The result: a mathematically perfect view of your finances, down to the last cent.
+That's it. No accounting knowledge needed. The result: zero-error financial tracking, down to the last cent.
 
 ▶ Key Features
 
 📊 Net Worth Dashboard
-See assets and liabilities at a glance. Know your true net worth — including cash, bank balances, e-money, and outstanding credit card charges.
+See your true financial position at a glance. Track assets and liabilities together — cash, bank balances, payment apps, credit cards, and loans. Know exactly where you stand.
 
 💰 Multi-Account Tracking
-Manage cash, bank accounts, credit cards, PayPay, Suica, transit cards, and more. Check real-time balances for every account.
+Manage all your money in one place: checking accounts, savings, credit cards, Venmo, PayPal, Zelle, cash, loans, and investments. Real-time balances for everything.
 
 📝 Quick Transaction Entry
-Switch between expense, income, and transfer with one tap. The "From → To" format is intuitive and takes seconds.
+Switch between expense, income, and transfer with one tap. The "From → To" format takes seconds. No categories to wrestle with unless you want them.
 
 📈 Monthly Reports
-Visualize spending by category, track trends, and see income-to-expense ratios through clear charts.
+Visualize spending by category, track trends, and see income vs. expenses through clear charts. Spot patterns. Make better decisions.
 
-🌏 Country-Specific Presets
-Tailored presets for Japan (PayPay, Suica, PASMO) and Korea (KakaoPay, T-money). Select your country during onboarding to auto-configure 14 accounts.
+🌏 Country Presets for Instant Setup
+Choose your country during onboarding: US, UK, Australia, Japan, or Korea. Get 14 commonly-used accounts auto-configured with proper decimal currency formatting (USD, GBP, AUD, JPY, KRW).
 
 🔒 Secure Authentication
-Sign in with Google or Apple. No registration needed.
+Sign in with Google or Apple. No password to remember, no separate registration.
 
 📱 Offline Support
-Record transactions without internet. Data saves locally and syncs when you're back online.
+Record transactions anytime, anywhere — no internet needed. Everything saves locally and syncs when you're back online.
 
 🎨 Theme Customization
-Choose light mode, dark mode, or follow system settings.
+Light mode, dark mode, or system default — your choice.
 
 🌐 Three Languages
-English, Japanese, and Korean. Auto-detected and changeable anytime.
+English, Japanese, and Korean. Auto-detected, changeable anytime.
+
+💎 Freemium Model
+Free tier includes unlimited accounts and transactions. Premium unlocks advanced reports, exports, and cloud sync across devices.
 
 ▶ Privacy First
 
-Zan does not connect to bank APIs or card companies. No financial institution access required. All data is entered and controlled by you. Delete your account, and everything is permanently erased.
+No bank API. No financial institution access. No selling your data to advertisers.
+
+You enter your transactions manually. That's the tradeoff for total privacy. Your financial life is yours alone. Delete your account, and everything is permanently erased — no traces left.
 
 ▶ Perfect For
 
-• People who tried budgeting apps but couldn't stick with them
-• Anyone juggling multiple payment methods
-• Those who want to know their exact financial position
-• Expats and residents in Japan or Korea
-• Privacy-conscious users
+✓ Privacy-conscious users who refuse to link bank accounts
+✓ Former YNAB or Mint users seeking a privacy-first alternative
+✓ Spreadsheet budgeters who want better UX without losing accuracy
+✓ People juggling multiple payment methods (Venmo, PayPal, Zelle, cards, cash)
+✓ Anyone who wants mathematically perfect finances without complexity
+✓ Expats and travelers managing money across borders
 
-Start tracking your money accurately with Zan today.
+▶ Zan vs. The Alternatives
+
+vs. YNAB: No subscription lock-in. Free tier available. Privacy-first design.
+vs. Mint (discontinued): Manual entry means perfect accuracy and no bank risk.
+vs. Spreadsheets: Same accuracy, way better experience, mobile-first.
+vs. Copilot Money: No bank connection = works anywhere, zero security risk.
+
+Start tracking your money accurately with Zan today — your way, your data, your control.
 ```
 
 ### Category
@@ -751,13 +799,13 @@ Start tracking your money accurately with Zan today.
 | 2 | "From → To" — Record Transactions in Seconds |
 | 3 | All Transactions, Neatly Organized |
 | 4 | Monthly Reports Reveal Spending Patterns |
-| 5 | Country-Specific Presets for Quick Setup |
+| 5 | Presets for US, UK, AU & More — Start in Seconds |
 | 6 | Customize Theme and Language |
 
 ### Feature Graphic Text Suggestion
 ```
-Main copy: "See Where Your Money Flows"
-Sub copy: "Invisible Double-Entry Bookkeeping — Perfect Asset Tracking"
+Main copy: "Your Money. Your Data. Your Control."
+Sub copy: "Private Budget Tracking — No Bank Connection Needed"
 Background: App UI mockup + gradient (brand colors)
 ```
 
@@ -1273,6 +1321,8 @@ notification or email before the changes take effect.
 | money tracker | High | High | App name |
 | expense tracker | High | High | Description, keywords |
 | personal finance | High | High | Keywords, description |
+| YNAB alternative | Medium | Low | Competitor positioning |
+| Mint alternative | Medium | Low | Competitor positioning |
 
 **Secondary Keywords (Medium volume, lower competition)**
 | Keyword | Est. Volume | Competition | Strategy |
@@ -1282,14 +1332,20 @@ notification or email before the changes take effect.
 | asset tracker | Low | Low | Keywords |
 | multi-account finance | Low | Very low | Niche |
 | offline budget | Low | Low | Feature keyword |
+| privacy budget app | Low | Very low | Core differentiator |
+| no bank connection budget | Low | Very low | Unique selling point |
+| manual budget tracker | Low | Low | User intent match |
+| spreadsheet alternative finance | Low | Very low | Migration target |
 
 **Long-tail Keywords**
+- YNAB alternative free
+- budget app no bank connection
+- privacy first money tracker
 - simple budget tracker
+- net worth tracker free
+- manual expense tracker
+- double entry personal finance
 - money flow tracker
-- asset and liability tracker
-- finance app Japan
-- personal accounting app
-- multi-currency budget
 
 ### 경쟁사 키워드 분석
 
@@ -1300,6 +1356,10 @@ notification or email before the changes take effect.
 | Zaim | 家計簿, レシート, 簡単 | 복식부기 → 수학적 정확성 |
 | 뱅크샐러드 | 가계부, 자산관리, 소비 | 금융 연동 불필요, 오프라인 |
 | 편한가계부 | 가계부, 간편, 무료 | 복식부기 기반 순자산 추적 |
+| YNAB | budget, zero-based, envelope | Free tier + no subscription lock-in |
+| Mint (discontinued) | free budget, bank sync, spending | No bank API = privacy + works anywhere |
+| Copilot Money | net worth, bank sync, AI | Manual = more accurate, no bank risk |
+| Spreadsheet users | Excel budget, Google Sheets | Same accuracy, better UX, mobile-first |
 
 ### ASO 최적화 팁
 

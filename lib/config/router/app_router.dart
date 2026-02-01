@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:zan/config/router/route_names.dart';
+import 'package:zan/core/services/analytics_service.dart';
 import 'package:zan/presentation/providers/auth_provider.dart';
 import 'package:zan/presentation/screens/auth/sign_in_screen.dart';
 import 'package:zan/presentation/screens/home/home_screen.dart';
@@ -32,6 +33,7 @@ GoRouter appRouter(Ref ref) {
     navigatorKey: _rootNavigatorKey,
     initialLocation: RoutePaths.splash,
     debugLogDiagnostics: true,
+    observers: [AnalyticsService.instance.observer],
     redirect: (context, state) {
       final isLoggedIn = authState.valueOrNull?.session != null;
       final isOnSplash = state.matchedLocation == RoutePaths.splash;

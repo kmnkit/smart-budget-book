@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:zan/config/di/purchase_providers.dart';
 import 'package:zan/data/datasources/local/purchase_service.dart';
 import 'package:zan/generated/l10n/app_localizations.dart';
@@ -15,11 +16,26 @@ class SubscriptionScreen extends ConsumerStatefulWidget {
 class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
   bool _isLoading = false;
   String? _selectedProductId;
+  List<ProductDetails> _products = [];
 
   @override
   void initState() {
     super.initState();
     _selectedProductId = PurchaseService.annualProductId;
+    _loadProducts();
+  }
+
+  Future<void> _loadProducts() async {
+    final purchaseService = ref.read(purchaseServiceProvider);
+    final products = await purchaseService.getProducts();
+    if (mounted) {
+      setState(() => _products = products);
+    }
+  }
+
+  String _priceForProduct(String productId) {
+    final product = _products.where((p) => p.id == productId).firstOrNull;
+    return product?.price ?? '---';
   }
 
   @override
@@ -132,8 +148,8 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
             _PlanCard(
               selected: _selectedProductId == PurchaseService.annualProductId,
               title: l10n.annualPlan,
-              price: '¥3,800',
-              perMonth: '¥317/${l10n.month}',
+              price: _priceForProduct(PurchaseService.annualProductId),
+              perMonth: '',
               badge: l10n.bestValue,
               onTap: () => setState(() {
                 _selectedProductId = PurchaseService.annualProductId;
@@ -143,8 +159,8 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
             _PlanCard(
               selected: _selectedProductId == PurchaseService.monthlyProductId,
               title: l10n.monthlyPlan,
-              price: '¥480',
-              perMonth: '¥480/${l10n.month}',
+              price: _priceForProduct(PurchaseService.monthlyProductId),
+              perMonth: '',
               onTap: () => setState(() {
                 _selectedProductId = PurchaseService.monthlyProductId;
               }),

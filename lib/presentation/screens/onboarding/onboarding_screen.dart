@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:zan/config/router/route_names.dart';
 import 'package:zan/core/constants/country_presets.dart';
+import 'package:zan/core/services/att_service.dart';
 import 'package:zan/generated/l10n/app_localizations.dart';
 import 'package:zan/presentation/providers/onboarding_provider.dart';
 
@@ -41,7 +42,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final notifier = ref.read(onboardingNotifierProvider.notifier);
     final success = await notifier.completeOnboarding();
     if (success && mounted) {
-      context.go(RoutePaths.home);
+      // Request ATT permission after onboarding (iOS only)
+      await AttService.instance.requestPermission();
+      if (mounted) {
+        context.go(RoutePaths.home);
+      }
     }
   }
 
