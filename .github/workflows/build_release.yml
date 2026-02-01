@@ -62,6 +62,8 @@ jobs:
           printf '%s\n' \
             "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" \
             "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" \
+            "GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}" \
+            "GOOGLE_IOS_CLIENT_ID=${{ secrets.GOOGLE_IOS_CLIENT_ID }}" \
             "APP_ENV=production" \
             > .env.production
 
@@ -82,7 +84,7 @@ jobs:
           flutter build appbundle --release \
             --build-name=${{ needs.version.outputs.version }} \
             --build-number=${{ needs.version.outputs.build_number }} \
-            --dart-define=ENV_FILE=.env.production
+            --dart-define-from-file=.env.production
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -137,6 +139,8 @@ jobs:
           printf '%s\n' \
             "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" \
             "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" \
+            "GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}" \
+            "GOOGLE_IOS_CLIENT_ID=${{ secrets.GOOGLE_IOS_CLIENT_ID }}" \
             "APP_ENV=production" \
             > .env.production
 
@@ -153,7 +157,7 @@ jobs:
           flutter build ios --release --no-codesign \
             --build-name=${{ needs.version.outputs.version }} \
             --build-number=${{ needs.version.outputs.build_number }} \
-            --dart-define=ENV_FILE=.env.production
+            --dart-define-from-file=.env.production
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
