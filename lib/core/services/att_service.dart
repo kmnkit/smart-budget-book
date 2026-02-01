@@ -14,7 +14,7 @@ class AttService {
     final status = await AppTrackingTransparency.trackingAuthorizationStatus;
     if (status == TrackingStatus.notDetermined) {
       // Small delay recommended by Apple for better UX
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future<void>.delayed(const Duration(milliseconds: 500));
       return AppTrackingTransparency.requestTrackingAuthorization();
     }
     return status;

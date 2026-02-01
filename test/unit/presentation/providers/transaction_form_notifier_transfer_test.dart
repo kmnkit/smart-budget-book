@@ -5,7 +5,6 @@ import 'package:zan/config/di/transaction_providers.dart';
 import 'package:zan/core/constants/enums.dart';
 import 'package:zan/core/utils/transaction_type_helper.dart';
 import 'package:zan/domain/entities/account.dart';
-import 'package:zan/domain/entities/transaction.dart' as domain;
 import 'package:zan/domain/repositories/transaction_repository.dart';
 import 'package:zan/presentation/providers/auth_provider.dart';
 import 'package:zan/presentation/providers/transaction_form_provider.dart';

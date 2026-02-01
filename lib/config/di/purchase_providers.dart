@@ -14,7 +14,7 @@ part 'purchase_providers.g.dart';
 PurchaseService purchaseService(Ref ref) {
   final service = PurchaseService();
   service.initialize();
-  ref.onDispose(() => service.dispose());
+  ref.onDispose(service.dispose);
   return service;
 }
 

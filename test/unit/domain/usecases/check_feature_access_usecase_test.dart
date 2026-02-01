@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:zan/core/constants/enums.dart';
-import 'package:zan/domain/entities/feature_access.dart';
 import 'package:zan/domain/entities/subscription.dart';
 import 'package:zan/domain/entities/usage_quota.dart';
 import 'package:zan/domain/usecases/check_feature_access_usecase.dart';
@@ -12,7 +11,7 @@ void main() {
     useCase = const CheckFeatureAccessUseCase();
   });
 
-  Subscription _premiumSubscription({
+  Subscription premiumSubscription({
     SubscriptionStatus status = SubscriptionStatus.active,
   }) {
     return Subscription(
@@ -25,7 +24,7 @@ void main() {
     );
   }
 
-  Subscription _freeSubscription() {
+  Subscription freeSubscription() {
     return Subscription(
       id: 'sub-1',
       userId: 'user-1',
@@ -36,7 +35,7 @@ void main() {
     );
   }
 
-  UsageQuota _quota({
+  UsageQuota makeQuota({
     int transactions = 0,
     int accounts = 0,
     int aiInputs = 0,
@@ -60,8 +59,8 @@ void main() {
 
   group('Premium user', () {
     test('should allow all features for active premium', () {
-      final sub = _premiumSubscription();
-      final quota = _quota();
+      final sub = premiumSubscription();
+      final quota = makeQuota();
 
       for (final feature in FeatureType.values) {
         final access = useCase.call(
@@ -74,8 +73,8 @@ void main() {
     });
 
     test('should allow all features for trialing user', () {
-      final sub = _premiumSubscription(status: SubscriptionStatus.trialing);
-      final quota = _quota();
+      final sub = premiumSubscription(status: SubscriptionStatus.trialing);
+      final quota = makeQuota();
 
       for (final feature in FeatureType.values) {
         final access = useCase.call(
@@ -92,8 +91,8 @@ void main() {
     test('should allow when under limit', () {
       final access = useCase.call(
         feature: FeatureType.createTransaction,
-        subscription: _freeSubscription(),
-        quota: _quota(transactions: 30),
+        subscription: freeSubscription(),
+        quota: makeQuota(transactions: 30),
       );
       expect(access.allowed, isTrue);
       expect(access.remaining, equals(20));
@@ -103,8 +102,8 @@ void main() {
     test('should deny when at limit', () {
       final access = useCase.call(
         feature: FeatureType.createTransaction,
-        subscription: _freeSubscription(),
-        quota: _quota(transactions: 50),
+        subscription: freeSubscription(),
+        quota: makeQuota(transactions: 50),
       );
       expect(access.allowed, isFalse);
       expect(access.remaining, equals(0));
@@ -113,8 +112,8 @@ void main() {
     test('should deny when over limit', () {
       final access = useCase.call(
         feature: FeatureType.createTransaction,
-        subscription: _freeSubscription(),
-        quota: _quota(transactions: 55),
+        subscription: freeSubscription(),
+        quota: makeQuota(transactions: 55),
       );
       expect(access.allowed, isFalse);
     });
@@ -124,8 +123,8 @@ void main() {
     test('should allow when under limit', () {
       final access = useCase.call(
         feature: FeatureType.createAccount,
-        subscription: _freeSubscription(),
-        quota: _quota(accounts: 3),
+        subscription: freeSubscription(),
+        quota: makeQuota(accounts: 3),
       );
       expect(access.allowed, isTrue);
       expect(access.remaining, equals(2));
@@ -134,8 +133,8 @@ void main() {
     test('should deny at limit', () {
       final access = useCase.call(
         feature: FeatureType.createAccount,
-        subscription: _freeSubscription(),
-        quota: _quota(accounts: 5),
+        subscription: freeSubscription(),
+        quota: makeQuota(accounts: 5),
       );
       expect(access.allowed, isFalse);
       expect(access.remaining, equals(0));
@@ -147,8 +146,8 @@ void main() {
     test('should allow when under limit', () {
       final access = useCase.call(
         feature: FeatureType.aiInput,
-        subscription: _freeSubscription(),
-        quota: _quota(aiInputs: 2),
+        subscription: freeSubscription(),
+        quota: makeQuota(aiInputs: 2),
       );
       expect(access.allowed, isTrue);
       expect(access.remaining, equals(3));
@@ -157,8 +156,8 @@ void main() {
     test('should deny at limit', () {
       final access = useCase.call(
         feature: FeatureType.aiInput,
-        subscription: _freeSubscription(),
-        quota: _quota(aiInputs: 5),
+        subscription: freeSubscription(),
+        quota: makeQuota(aiInputs: 5),
       );
       expect(access.allowed, isFalse);
     });
@@ -168,8 +167,8 @@ void main() {
     test('should allow when under limit', () {
       final access = useCase.call(
         feature: FeatureType.ocrScan,
-        subscription: _freeSubscription(),
-        quota: _quota(ocrScans: 1),
+        subscription: freeSubscription(),
+        quota: makeQuota(ocrScans: 1),
       );
       expect(access.allowed, isTrue);
       expect(access.remaining, equals(2));
@@ -178,8 +177,8 @@ void main() {
     test('should deny at limit', () {
       final access = useCase.call(
         feature: FeatureType.ocrScan,
-        subscription: _freeSubscription(),
-        quota: _quota(ocrScans: 3),
+        subscription: freeSubscription(),
+        quota: makeQuota(ocrScans: 3),
       );
       expect(access.allowed, isFalse);
     });
@@ -189,8 +188,8 @@ void main() {
     test('should deny exportPdf', () {
       final access = useCase.call(
         feature: FeatureType.exportPdf,
-        subscription: _freeSubscription(),
-        quota: _quota(),
+        subscription: freeSubscription(),
+        quota: makeQuota(),
       );
       expect(access.allowed, isFalse);
     });
@@ -198,8 +197,8 @@ void main() {
     test('should deny exportJson', () {
       final access = useCase.call(
         feature: FeatureType.exportJson,
-        subscription: _freeSubscription(),
-        quota: _quota(),
+        subscription: freeSubscription(),
+        quota: makeQuota(),
       );
       expect(access.allowed, isFalse);
     });
@@ -207,8 +206,8 @@ void main() {
     test('should deny multiCurrency', () {
       final access = useCase.call(
         feature: FeatureType.multiCurrency,
-        subscription: _freeSubscription(),
-        quota: _quota(),
+        subscription: freeSubscription(),
+        quota: makeQuota(),
       );
       expect(access.allowed, isFalse);
     });
@@ -216,8 +215,8 @@ void main() {
     test('should deny fullHistory', () {
       final access = useCase.call(
         feature: FeatureType.fullHistory,
-        subscription: _freeSubscription(),
-        quota: _quota(),
+        subscription: freeSubscription(),
+        quota: makeQuota(),
       );
       expect(access.allowed, isFalse);
     });
@@ -237,7 +236,7 @@ void main() {
       final access = useCase.call(
         feature: FeatureType.multiCurrency,
         subscription: sub,
-        quota: _quota(),
+        quota: makeQuota(),
       );
       expect(access.allowed, isFalse);
     });
@@ -255,7 +254,7 @@ void main() {
       final access = useCase.call(
         feature: FeatureType.createTransaction,
         subscription: sub,
-        quota: _quota(transactions: 50),
+        quota: makeQuota(transactions: 50),
       );
       expect(access.allowed, isFalse);
     });
