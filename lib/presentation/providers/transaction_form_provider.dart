@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:zan/config/di/subscription_providers.dart';
 import 'package:zan/config/di/transaction_providers.dart';
 import 'package:zan/core/constants/enums.dart';
 import 'package:zan/core/utils/transaction_type_helper.dart';
@@ -149,7 +150,14 @@ class TransactionFormNotifier extends _$TransactionFormNotifier {
 
     // Check transaction quota for new transactions
     if (existingId == null) {
-      final access = ref.read(featureAccessProvider(FeatureType.createTransaction));
+      final sub = await ref.read(subscriptionProvider.future);
+      final quota = await ref.read(usageQuotaProvider.future);
+      final useCase = ref.read(checkFeatureAccessUseCaseProvider);
+      final access = useCase.call(
+        feature: FeatureType.createTransaction,
+        subscription: sub,
+        quota: quota,
+      );
       if (!access.allowed) {
         state = state.copyWith(error: access.reason);
         return false;
