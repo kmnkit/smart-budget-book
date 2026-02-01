@@ -15,7 +15,7 @@ Zan (Asset Lite) is a smart personal finance mobile app built on double-entry bo
 - **HTTP**: Dio (with interceptors)
 - **Backend**: Supabase (PostgreSQL BaaS) + Supabase Auth + Supabase Storage
 - **Auth**: Supabase Auth — Google Sign-In (OAuth), Apple Sign-In (OAuth + nonce/PKCE, iOS only)
-- **Firebase**: Analytics (configured), Crashlytics / FCM (미구현)
+- **Firebase**: Analytics, Crashlytics, Cloud Messaging (FCM)
 - **Monetization**: in_app_purchase, Freemium 모델 (구독 + Feature Gate)
 - **Privacy**: App Tracking Transparency (ATT)
 - **AI/ML** (Phase 2): Gemini 1.5 Flash, Google ML Kit (OCR), Platform STT
@@ -204,8 +204,8 @@ Firebase 프로젝트: `smart-budget-book`
 
 현재 활성화된 서비스:
 - **Analytics**: `AnalyticsService` 싱글턴 (`core/services/analytics_service.dart`)
-- **Crashlytics**: 미구현
-- **FCM**: 미구현
+- **Crashlytics**: `CrashlyticsService` 싱글턴 (`core/services/crashlytics_service.dart`)
+- **FCM**: `MessagingService` 싱글턴 (`core/services/messaging_service.dart`)
 
 ## Development Conventions
 
