@@ -210,6 +210,7 @@ class _CountrySelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context).languageCode;
     return Column(
       children: [
         const SizedBox(height: 32),
@@ -228,14 +229,16 @@ class _CountrySelectionPage extends StatelessWidget {
             itemBuilder: (context, index) {
               final preset = countryPresets[index];
               final isSelected = selectedCountry?.code == preset.code;
+              final localizedName = preset.localizedName(locale);
+              final showSubtitle = locale != 'en' && localizedName != preset.nameEn;
               return Card(
                 color: isSelected
                     ? Theme.of(context).colorScheme.primaryContainer
                     : null,
                 child: ListTile(
                   leading: Text(preset.flag, style: const TextStyle(fontSize: 32)),
-                  title: Text(preset.name),
-                  subtitle: Text(preset.nameEn),
+                  title: Text(localizedName),
+                  subtitle: showSubtitle ? Text(preset.nameEn) : null,
                   trailing: isSelected
                       ? Icon(Icons.check_circle,
                           color: Theme.of(context).colorScheme.primary)

@@ -19,6 +19,7 @@ class PresetSelectionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
     final groupedByType = <AccountType, List<MapEntry<int, PresetAccount>>>{};
     for (var i = 0; i < country.accounts.length; i++) {
       final account = country.accounts[i];
@@ -45,11 +46,13 @@ class PresetSelectionView extends StatelessWidget {
               final index = mapEntry.key;
               final account = mapEntry.value;
               final isSelected = selectedIndices.contains(index);
+              final localizedName = account.localizedName(locale);
+              final showSubtitle = locale != 'en' && localizedName != account.nameEn;
               return CheckboxListTile(
                 value: isSelected,
                 onChanged: (_) => onToggle(index),
-                title: Text(account.name),
-                subtitle: Text(account.nameEn),
+                title: Text(localizedName),
+                subtitle: showSubtitle ? Text(account.nameEn) : null,
                 secondary: Icon(
                   Icons.circle,
                   color: Color(int.parse(account.color.replaceFirst('#', '0xFF'))),

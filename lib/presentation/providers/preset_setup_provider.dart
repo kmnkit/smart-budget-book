@@ -83,7 +83,7 @@ class PresetSetupNotifier extends _$PresetSetupNotifier {
     }
   }
 
-  Future<bool> createPresetAccounts(CountryPreset country) async {
+  Future<bool> createPresetAccounts(CountryPreset country, String locale) async {
     final userId = ref.read(currentUserIdProvider);
     if (userId == null) return false;
 
@@ -99,7 +99,7 @@ class PresetSetupNotifier extends _$PresetSetupNotifier {
           Account(
             id: '',
             userId: userId,
-            name: preset.name,
+            name: preset.localizedName(locale),
             type: preset.type,
             category: preset.category,
             icon: preset.icon,

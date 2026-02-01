@@ -20,6 +20,7 @@ class BalanceInputView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
     final balanceAccounts = selectedIndices
         .where((i) {
           final type = country.accounts[i].type;
@@ -44,7 +45,7 @@ class BalanceInputView extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 16),
           child: TextFormField(
             decoration: InputDecoration(
-              labelText: account.name,
+              labelText: account.localizedName(locale),
               helperText: balanceLabel,
               suffixText: country.currency,
               prefixIcon: Icon(

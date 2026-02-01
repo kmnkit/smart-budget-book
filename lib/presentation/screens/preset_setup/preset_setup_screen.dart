@@ -117,8 +117,9 @@ class _PresetSetupScreenState extends ConsumerState<PresetSetupScreen> {
                             if (state.currentStep < 1) {
                               notifier.nextStep();
                             } else {
+                              final locale = Localizations.localeOf(context).languageCode;
                               final success =
-                                  await notifier.createPresetAccounts(country);
+                                  await notifier.createPresetAccounts(country, locale);
                               if (success && context.mounted) {
                                 context.pop();
                               }
