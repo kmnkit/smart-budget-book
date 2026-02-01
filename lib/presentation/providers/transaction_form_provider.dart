@@ -7,6 +7,7 @@ import 'package:zan/domain/entities/transaction.dart';
 import 'package:zan/presentation/providers/auth_provider.dart';
 import 'package:zan/presentation/providers/dashboard_provider.dart';
 import 'package:zan/presentation/providers/report_provider.dart';
+import 'package:zan/presentation/providers/subscription_provider.dart';
 import 'package:zan/presentation/providers/transaction_list_provider.dart';
 
 part 'transaction_form_provider.g.dart';
@@ -146,6 +147,15 @@ class TransactionFormNotifier extends _$TransactionFormNotifier {
     final userId = ref.read(currentUserIdProvider);
     if (userId == null) return false;
 
+    // Check transaction quota for new transactions
+    if (existingId == null) {
+      final access = ref.read(featureAccessProvider(FeatureType.createTransaction));
+      if (!access.allowed) {
+        state = state.copyWith(error: access.reason);
+        return false;
+      }
+    }
+
     state = state.copyWith(isLoading: true, error: null);
 
     final now = DateTime.now();
@@ -189,5 +199,6 @@ class TransactionFormNotifier extends _$TransactionFormNotifier {
     ref.invalidate(monthlyReportProvider);
     ref.invalidate(categoryBreakdownProvider);
     ref.invalidate(previousMonthSummaryProvider);
+    ref.invalidate(usageQuotaProvider);
   }
 }

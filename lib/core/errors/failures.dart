@@ -30,3 +30,15 @@ class NotFoundFailure extends Failure {
 class UnknownFailure extends Failure {
   const UnknownFailure([super.message = 'An unknown error occurred']);
 }
+
+class SubscriptionFailure extends Failure {
+  const SubscriptionFailure([super.message = 'Subscription error occurred']);
+}
+
+class PurchaseFailure extends Failure {
+  const PurchaseFailure([super.message = 'Purchase failed']);
+}
+
+class QuotaExceededFailure extends Failure {
+  const QuotaExceededFailure([super.message = 'Usage quota exceeded']);
+}

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:zan/config/router/route_names.dart';
 import 'package:zan/generated/l10n/app_localizations.dart';
 import 'package:zan/presentation/providers/settings_provider.dart';
+import 'package:zan/presentation/providers/subscription_provider.dart';
 import 'package:zan/presentation/providers/theme_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -85,6 +86,31 @@ class SettingsScreen extends ConsumerWidget {
             title: Text(l10n.presetSetupTitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push(RoutePaths.presetSetup),
+          ),
+          const Divider(),
+          // Zan Premium
+          Builder(
+            builder: (context) {
+              final isPremiumUser = ref.watch(isPremiumProvider);
+              return ListTile(
+                leading: Icon(
+                  Icons.workspace_premium,
+                  color: isPremiumUser
+                      ? Theme.of(context).colorScheme.primary
+                      : null,
+                ),
+                title: Text(l10n.zanPremium),
+                subtitle: Text(
+                  isPremiumUser ? l10n.premiumActive : l10n.freePlan,
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push(
+                  isPremiumUser
+                      ? RoutePaths.subscriptionManagement
+                      : RoutePaths.subscription,
+                ),
+              );
+            },
           ),
           const Divider(),
           // Sign out

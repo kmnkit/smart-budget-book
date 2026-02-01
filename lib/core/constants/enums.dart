@@ -120,3 +120,79 @@ enum SourceType {
     };
   }
 }
+
+enum SubscriptionTier {
+  free,
+  premium;
+
+  String get dbValue => name;
+
+  static SubscriptionTier fromDbValue(String value) {
+    return SubscriptionTier.values.firstWhere((e) => e.name == value);
+  }
+}
+
+enum SubscriptionStatus {
+  none,
+  trialing,
+  active,
+  pastDue,
+  expired,
+  canceled;
+
+  String get dbValue {
+    return switch (this) {
+      pastDue => 'past_due',
+      _ => name,
+    };
+  }
+
+  static SubscriptionStatus fromDbValue(String value) {
+    return switch (value) {
+      'past_due' => pastDue,
+      _ => SubscriptionStatus.values.firstWhere((e) => e.name == value),
+    };
+  }
+}
+
+enum SubscriptionPeriod {
+  monthly,
+  annual;
+
+  String get dbValue => name;
+
+  static SubscriptionPeriod fromDbValue(String value) {
+    return SubscriptionPeriod.values.firstWhere((e) => e.name == value);
+  }
+}
+
+enum FeatureType {
+  createAccount,
+  createTransaction,
+  aiInput,
+  ocrScan,
+  exportPdf,
+  exportJson,
+  multiCurrency,
+  fullHistory,
+}
+
+enum UsageType {
+  aiInput,
+  ocrScan;
+
+  String get dbValue {
+    return switch (this) {
+      aiInput => 'ai_input',
+      ocrScan => 'ocr_scan',
+    };
+  }
+
+  static UsageType fromDbValue(String value) {
+    return switch (value) {
+      'ai_input' => aiInput,
+      'ocr_scan' => ocrScan,
+      _ => UsageType.values.firstWhere((e) => e.name == value),
+    };
+  }
+}

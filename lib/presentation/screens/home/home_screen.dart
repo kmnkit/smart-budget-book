@@ -7,6 +7,7 @@ import 'package:zan/core/utils/currency_formatter.dart';
 import 'package:zan/domain/entities/account_balance.dart';
 import 'package:zan/generated/l10n/app_localizations.dart';
 import 'package:zan/presentation/providers/dashboard_provider.dart';
+import 'package:zan/presentation/providers/subscription_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -30,6 +31,62 @@ class HomeScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            // Trial / Upgrade Banner
+            Consumer(
+              builder: (context, ref, _) {
+                final subAsync = ref.watch(subscriptionProvider);
+                return subAsync.when(
+                  loading: () => const SizedBox.shrink(),
+                  error: (error, stack) => const SizedBox.shrink(),
+                  data: (sub) {
+                    if (sub.status == SubscriptionStatus.trialing &&
+                        sub.trialEndAt != null) {
+                      final daysLeft =
+                          sub.trialEndAt!.difference(DateTime.now()).inDays;
+                      if (daysLeft >= 0) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Card(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .tertiaryContainer,
+                            child: ListTile(
+                              leading: const Icon(Icons.workspace_premium),
+                              title: Text(
+                                '${l10n.trialBanner}: $daysLeft${l10n.daysLeft}',
+                              ),
+                              trailing: const Icon(Icons.chevron_right),
+                              onTap: () => context
+                                  .push(RoutePaths.subscription),
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                    if (sub.status == SubscriptionStatus.none ||
+                        sub.status == SubscriptionStatus.expired) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: Card(
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.workspace_premium,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            title: Text(l10n.upgradeToPremium),
+                            subtitle: Text(l10n.upgradeDescription),
+                            trailing: const Icon(Icons.chevron_right),
+                            onTap: () =>
+                                context.push(RoutePaths.subscription),
+                          ),
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                );
+              },
+            ),
             // Net Worth Card
             Card(
               color: Theme.of(context).colorScheme.primaryContainer,
@@ -69,7 +126,7 @@ class HomeScreen extends ConsumerWidget {
                   child: Center(child: CircularProgressIndicator()),
                 ),
               ),
-              error: (_, _) => const SizedBox.shrink(),
+              error: (error, stack) => const SizedBox.shrink(),
               data: (summary) => Card(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -131,7 +188,7 @@ class HomeScreen extends ConsumerWidget {
             // Account Balances
             balancesAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (_, _) => const SizedBox.shrink(),
+              error: (error, stack) => const SizedBox.shrink(),
               data: (balances) {
                 if (balances.isEmpty) {
                   return _HomeEmptyState();

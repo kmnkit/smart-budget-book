@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:zan/core/constants/enums.dart';
 
 part 'profile.freezed.dart';
 
@@ -12,6 +13,7 @@ sealed class Profile with _$Profile {
     String? defaultDebitAccountId,
     required bool onboardingCompleted,
     @Default({}) Map<String, dynamic> settings,
+    @Default(SubscriptionTier.free) SubscriptionTier subscriptionTier,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _Profile;

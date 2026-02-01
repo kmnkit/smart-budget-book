@@ -16,6 +16,8 @@ import 'package:zan/presentation/screens/transactions/transaction_list_screen.da
 import 'package:zan/presentation/screens/accounts/account_list_screen.dart';
 import 'package:zan/presentation/screens/accounts/account_form_screen.dart';
 import 'package:zan/presentation/screens/preset_setup/preset_setup_screen.dart';
+import 'package:zan/presentation/screens/subscription/subscription_screen.dart';
+import 'package:zan/presentation/screens/subscription/subscription_management_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -114,6 +116,16 @@ GoRouter appRouter(Ref ref) {
         path: RoutePaths.presetSetup,
         name: RouteNames.presetSetup,
         builder: (context, state) => const PresetSetupScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.subscription,
+        name: RouteNames.subscription,
+        builder: (context, state) => const SubscriptionScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.subscriptionManagement,
+        name: RouteNames.subscriptionManagement,
+        builder: (context, state) => const SubscriptionManagementScreen(),
       ),
     ],
   );

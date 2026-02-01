@@ -13,6 +13,8 @@ class RouteNames {
   static const accountList = 'accountList';
   static const accountForm = 'accountForm';
   static const presetSetup = 'presetSetup';
+  static const subscription = 'subscription';
+  static const subscriptionManagement = 'subscriptionManagement';
 }
 
 class RoutePaths {
@@ -30,4 +32,6 @@ class RoutePaths {
   static const accountList = '/accounts';
   static const accountForm = '/account-form';
   static const presetSetup = '/preset-setup';
+  static const subscription = '/subscription';
+  static const subscriptionManagement = '/subscription-management';
 }

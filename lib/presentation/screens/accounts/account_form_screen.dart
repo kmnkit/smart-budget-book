@@ -8,6 +8,8 @@ import 'package:zan/domain/entities/account.dart';
 import 'package:zan/generated/l10n/app_localizations.dart';
 import 'package:zan/presentation/providers/account_provider.dart';
 import 'package:zan/presentation/providers/auth_provider.dart';
+import 'package:zan/presentation/providers/subscription_provider.dart';
+import 'package:zan/presentation/widgets/paywall_bottom_sheet.dart';
 
 class AccountFormScreen extends ConsumerStatefulWidget {
   const AccountFormScreen({super.key, this.accountId});
@@ -69,6 +71,21 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
+
+    // Check account quota for new accounts
+    if (!isEditing) {
+      final access = ref.read(featureAccessProvider(FeatureType.createAccount));
+      if (!access.allowed) {
+        await PaywallBottomSheet.show(
+          context,
+          reason: access.reason,
+          remaining: access.remaining,
+          limit: access.limit,
+        );
+        return;
+      }
+    }
+
     setState(() => _isLoading = true);
 
     final userId = ref.read(currentUserIdProvider) ?? '';
