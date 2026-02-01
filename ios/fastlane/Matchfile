@@ -2,4 +2,4 @@ git_url(ENV["MATCH_GIT_URL"] || "https://github.com/your-org/zan-certificates.gi
 storage_mode("git")
 type("appstore")
 app_identifier(["com.assetlite.zan"])
-# username("your@email.com")  # Set after Apple Developer enrollment
+# username("k900327s@gmail.com")  # Set after Apple Developer enrollment
