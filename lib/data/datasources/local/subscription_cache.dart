@@ -1,7 +1,17 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:zan/core/constants/enums.dart';
 
 class SubscriptionCache {
+  SubscriptionCache({FlutterSecureStorage? storage})
+      : _storage = storage ??
+            const FlutterSecureStorage(
+              aOptions: AndroidOptions(
+                encryptedSharedPreferences: true,
+              ),
+            );
+
+  final FlutterSecureStorage _storage;
+
   static const _keyTier = 'subscription_tier';
   static const _keyStatus = 'subscription_status';
   static const _keyExpiresAt = 'subscription_expires_at';
@@ -14,28 +24,29 @@ class SubscriptionCache {
     required SubscriptionStatus status,
     DateTime? expiresAt,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyTier, tier.dbValue);
-    await prefs.setString(_keyStatus, status.dbValue);
+    await _storage.write(key: _keyTier, value: tier.dbValue);
+    await _storage.write(key: _keyStatus, value: status.dbValue);
     if (expiresAt != null) {
-      await prefs.setString(_keyExpiresAt, expiresAt.toIso8601String());
+      await _storage.write(
+        key: _keyExpiresAt,
+        value: expiresAt.toIso8601String(),
+      );
     }
-    await prefs.setString(
-      _keyLastVerifiedAt,
-      DateTime.now().toIso8601String(),
+    await _storage.write(
+      key: _keyLastVerifiedAt,
+      value: DateTime.now().toIso8601String(),
     );
   }
 
   Future<CachedSubscription?> getCached() async {
-    final prefs = await SharedPreferences.getInstance();
-    final tierStr = prefs.getString(_keyTier);
-    final statusStr = prefs.getString(_keyStatus);
+    final tierStr = await _storage.read(key: _keyTier);
+    final statusStr = await _storage.read(key: _keyStatus);
     if (tierStr == null || statusStr == null) return null;
 
     final tier = SubscriptionTier.fromDbValue(tierStr);
     final status = SubscriptionStatus.fromDbValue(statusStr);
-    final expiresAtStr = prefs.getString(_keyExpiresAt);
-    final lastVerifiedAtStr = prefs.getString(_keyLastVerifiedAt);
+    final expiresAtStr = await _storage.read(key: _keyExpiresAt);
+    final lastVerifiedAtStr = await _storage.read(key: _keyLastVerifiedAt);
 
     final expiresAt =
         expiresAtStr != null ? DateTime.parse(expiresAtStr) : null;
@@ -75,11 +86,10 @@ class SubscriptionCache {
   }
 
   Future<void> clear() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyTier);
-    await prefs.remove(_keyStatus);
-    await prefs.remove(_keyExpiresAt);
-    await prefs.remove(_keyLastVerifiedAt);
+    await _storage.delete(key: _keyTier);
+    await _storage.delete(key: _keyStatus);
+    await _storage.delete(key: _keyExpiresAt);
+    await _storage.delete(key: _keyLastVerifiedAt);
   }
 }
 

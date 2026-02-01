@@ -5,6 +5,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const WEBHOOK_SECRET = Deno.env.get("WEBHOOK_SECRET")!;
 
 serve(async (req: Request) => {
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
@@ -18,6 +19,13 @@ serve(async (req: Request) => {
       return await handleAppleNotification(supabase, body);
     } else if (body.message) {
       // Google Real-time Developer Notifications (via Pub/Sub)
+      // Verify webhook secret
+      const secret = req.headers.get("X-Webhook-Secret") || new URL(req.url).searchParams.get("secret");
+      if (!secret || secret !== WEBHOOK_SECRET) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 401,
+        });
+      }
       return await handleGoogleNotification(supabase, body);
     }
 
@@ -32,11 +40,83 @@ serve(async (req: Request) => {
   }
 });
 
+// Helper function to verify Apple JWS signature
+async function verifyAppleJWS(jws: string): Promise<boolean> {
+  try {
+    const parts = jws.split(".");
+    if (parts.length !== 3) {
+      return false;
+    }
+
+    // Fetch Apple's JWKS
+    const jwksResponse = await fetch("https://appleid.apple.com/auth/keys");
+    if (!jwksResponse.ok) {
+      console.error("Failed to fetch Apple JWKS");
+      return false;
+    }
+    const jwks = await jwksResponse.json();
+
+    // Decode header to get key ID
+    const header = JSON.parse(atob(parts[0]));
+    const kid = header.kid;
+
+    // Find matching key
+    const key = jwks.keys.find((k: { kid: string }) => k.kid === kid);
+    if (!key) {
+      console.error("No matching key found for kid:", kid);
+      return false;
+    }
+
+    // Import the public key
+    const publicKey = await crypto.subtle.importKey(
+      "jwk",
+      key,
+      { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+      false,
+      ["verify"]
+    );
+
+    // Verify signature
+    const signatureBytes = base64UrlDecode(parts[2]);
+    const dataBytes = new TextEncoder().encode(`${parts[0]}.${parts[1]}`);
+
+    return await crypto.subtle.verify(
+      "RSASSA-PKCS1-v1_5",
+      publicKey,
+      signatureBytes,
+      dataBytes
+    );
+  } catch (error) {
+    console.error("JWS verification error:", error);
+    return false;
+  }
+}
+
+// Helper function to decode base64url
+function base64UrlDecode(str: string): Uint8Array {
+  const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+  const padding = "=".repeat((4 - (base64.length % 4)) % 4);
+  const binary = atob(base64 + padding);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+}
+
 async function handleAppleNotification(
   supabase: ReturnType<typeof createClient>,
   body: { signedPayload: string }
 ) {
   try {
+    // Verify outer JWS signature
+    const isValidOuter = await verifyAppleJWS(body.signedPayload);
+    if (!isValidOuter) {
+      return new Response(JSON.stringify({ error: "Invalid signature" }), {
+        status: 401,
+      });
+    }
+
     // Decode JWS payload (signedPayload is a JWS)
     const parts = body.signedPayload.split(".");
     if (parts.length !== 3) {
@@ -53,6 +133,14 @@ async function handleAppleNotification(
     const transactionInfo = payload.data?.signedTransactionInfo;
     if (!transactionInfo) {
       return new Response(JSON.stringify({ ok: true }), { status: 200 });
+    }
+
+    // Verify inner transaction JWS signature
+    const isValidInner = await verifyAppleJWS(transactionInfo);
+    if (!isValidInner) {
+      return new Response(JSON.stringify({ error: "Invalid transaction signature" }), {
+        status: 401,
+      });
     }
 
     const txParts = transactionInfo.split(".");
@@ -175,7 +263,7 @@ async function handleGoogleNotification(
       .single();
 
     if (!subscription) {
-      console.error("No subscription found for token:", purchaseToken);
+      console.error("No subscription found for token:", purchaseToken.substring(0, 10) + "...");
       return new Response(JSON.stringify({ ok: true }), { status: 200 });
     }
 

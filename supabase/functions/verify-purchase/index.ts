@@ -122,18 +122,16 @@ serve(async (req: Request) => {
   }
 });
 
+// Cache for Apple's public keys (1 hour TTL)
+let appleKeysCache: { keys: Array<{ kid: string; key: CryptoKey }>; expires: number } | null = null;
+
 async function verifyApplePurchase(
   receiptData: string,
   _productId: string
 ): Promise<{ verified: boolean; expiresAt: string | null }> {
   try {
     // Apple App Store Server API v2 - JWS Transaction verification
-    // In production, decode the JWS (JSON Web Signature) and verify against
-    // Apple's public keys at https://appleid.apple.com/auth/keys
-    //
-    // For sandbox testing, use:
-    // https://sandbox.itunes.apple.com/verifyReceipt (legacy)
-    // https://api.storekit-sandbox.itunes.apple.com (Server API v2)
+    // Verify the JWS signature against Apple's public keys
 
     const isSandbox =
       Deno.env.get("APPLE_ENVIRONMENT") === "sandbox" ||
@@ -143,28 +141,118 @@ async function verifyApplePurchase(
       ? "https://api.storekit-sandbox.itunes.apple.com"
       : "https://api.storekit.itunes.apple.com";
 
-    // Decode and verify JWS transaction
-    // The receiptData from StoreKit 2 is a JWS signed transaction
+    // Parse JWS format (header.payload.signature)
     const parts = receiptData.split(".");
-    if (parts.length === 3) {
-      // Valid JWS format - decode payload
-      const payload = JSON.parse(atob(parts[1]));
-      const expiresDate = payload.expiresDate;
-      const expiresAt = expiresDate
-        ? new Date(expiresDate).toISOString()
-        : null;
-
-      // In production: verify signature against Apple's keys
-      // For now, trust the receipt if it decodes properly
-      return { verified: true, expiresAt };
+    if (parts.length !== 3) {
+      console.error("Invalid JWS format");
+      return { verified: false, expiresAt: null };
     }
 
-    // Legacy receipt format fallback
-    return { verified: false, expiresAt: null };
+    // Decode header to get key ID (kid)
+    const headerJson = atob(parts[0]);
+    const header = JSON.parse(headerJson);
+    const kid = header.kid;
+
+    if (!kid) {
+      console.error("Missing kid in JWS header");
+      return { verified: false, expiresAt: null };
+    }
+
+    // Get Apple's public keys
+    const appleKeys = await getApplePublicKeys();
+    const matchingKey = appleKeys.find((k) => k.kid === kid);
+
+    if (!matchingKey) {
+      console.error(`No matching Apple public key for kid: ${kid}`);
+      return { verified: false, expiresAt: null };
+    }
+
+    // Verify RS256 signature
+    const encoder = new TextEncoder();
+    const data = encoder.encode(`${parts[0]}.${parts[1]}`);
+    const signature = base64UrlToArrayBuffer(parts[2]);
+
+    const isValid = await crypto.subtle.verify(
+      { name: "RSASSA-PKCS1-v1_5" },
+      matchingKey.key,
+      signature,
+      data
+    );
+
+    if (!isValid) {
+      console.error("JWS signature verification failed");
+      return { verified: false, expiresAt: null };
+    }
+
+    // Signature verified - now trust the payload
+    const payload = JSON.parse(atob(parts[1]));
+    const expiresDate = payload.expiresDate;
+    const expiresAt = expiresDate
+      ? new Date(expiresDate).toISOString()
+      : null;
+
+    return { verified: true, expiresAt };
   } catch (error) {
     console.error("Apple verification error:", error);
     return { verified: false, expiresAt: null };
   }
+}
+
+async function getApplePublicKeys(): Promise<Array<{ kid: string; key: CryptoKey }>> {
+  const now = Date.now();
+
+  // Return cached keys if still valid
+  if (appleKeysCache && appleKeysCache.expires > now) {
+    return appleKeysCache.keys;
+  }
+
+  // Fetch fresh keys from Apple
+  const response = await fetch("https://appleid.apple.com/auth/keys");
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Apple keys: ${response.status}`);
+  }
+
+  const jwks = await response.json();
+  const keys: Array<{ kid: string; key: CryptoKey }> = [];
+
+  for (const jwk of jwks.keys) {
+    if (jwk.kty === "RSA" && jwk.use === "sig" && jwk.alg === "RS256") {
+      const key = await crypto.subtle.importKey(
+        "jwk",
+        {
+          kty: jwk.kty,
+          n: jwk.n,
+          e: jwk.e,
+          alg: jwk.alg,
+          ext: true,
+        },
+        { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+        false,
+        ["verify"]
+      );
+      keys.push({ kid: jwk.kid, key });
+    }
+  }
+
+  // Cache for 1 hour
+  appleKeysCache = {
+    keys,
+    expires: now + 3600 * 1000,
+  };
+
+  return keys;
+}
+
+function base64UrlToArrayBuffer(base64Url: string): ArrayBuffer {
+  // Convert base64url to base64
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const padding = "=".repeat((4 - (base64.length % 4)) % 4);
+  const binary = atob(base64 + padding);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes.buffer;
 }
 
 async function verifyGooglePurchase(

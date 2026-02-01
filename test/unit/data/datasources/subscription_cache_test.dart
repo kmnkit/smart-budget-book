@@ -1,14 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zan/core/constants/enums.dart';
 import 'package:zan/data/datasources/local/subscription_cache.dart';
 
+import '../../../helpers/mock_secure_storage.dart';
+
 void main() {
   late SubscriptionCache cache;
+  late MockSecureStorage mockStorage;
 
   setUp(() {
-    SharedPreferences.setMockInitialValues({});
-    cache = SubscriptionCache();
+    mockStorage = MockSecureStorage();
+    cache = SubscriptionCache(storage: mockStorage);
   });
 
   group('cache and getCached', () {

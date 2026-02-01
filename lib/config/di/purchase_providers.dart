@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:zan/data/datasources/local/purchase_service.dart';
 import 'package:zan/data/datasources/local/subscription_cache.dart';
@@ -19,8 +20,19 @@ PurchaseService purchaseService(Ref ref) {
 }
 
 @riverpod
+FlutterSecureStorage secureStorage(Ref ref) {
+  return const FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+  );
+}
+
+@riverpod
 SubscriptionCache subscriptionCache(Ref ref) {
-  return SubscriptionCache();
+  return SubscriptionCache(
+    storage: ref.watch(secureStorageProvider),
+  );
 }
 
 @riverpod
