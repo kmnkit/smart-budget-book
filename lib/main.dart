@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zan/app.dart';
 import 'package:zan/config/env/env.dart';
+import 'package:zan/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +13,9 @@ void main() async {
   const envFile = String.fromEnvironment('ENV_FILE', defaultValue: '.env');
   await dotenv.load(fileName: envFile);
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await Supabase.initialize(
     url: Env.supabaseUrl,

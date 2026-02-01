@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1004381434378",
+    "project_id": "smart-budget-book",
+    "storage_bucket": "smart-budget-book.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004381434378:android:c7d027973b529696afe5f3",
+        "android_client_info": {
+          "package_name": "com.assetlite.zan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6j648iaOhIJuxzbRNb-ojpIxAlSo6sfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

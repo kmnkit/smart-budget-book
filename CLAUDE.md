@@ -14,8 +14,12 @@ Zan (Asset Lite) is a smart personal finance mobile app built on double-entry bo
 - **Local DB**: Drift (SQLite, for offline cache)
 - **HTTP**: Dio (with interceptors)
 - **Backend**: Supabase (PostgreSQL BaaS) + Supabase Auth + Supabase Storage
+- **Auth**: Supabase Auth — Google Sign-In (OAuth), Apple Sign-In (OAuth + nonce/PKCE, iOS only)
+- **Firebase**: Analytics (configured), Crashlytics / FCM (미구현)
+- **Monetization**: in_app_purchase, Freemium 모델 (구독 + Feature Gate)
+- **Privacy**: App Tracking Transparency (ATT)
 - **AI/ML** (Phase 2): Gemini 1.5 Flash, Google ML Kit (OCR), Platform STT
-- **Infrastructure**: GitHub Actions CI/CD, Firebase (Crashlytics, Analytics, FCM)
+- **Infrastructure**: GitHub Actions CI/CD
 
 ## Build & Development Commands
 
@@ -49,6 +53,9 @@ flutter analyze
 
 # Format code
 dart format lib/ test/
+
+# Firebase 재설정 (firebase_options.dart 재생성)
+flutterfire configure --project=smart-budget-book
 ```
 
 ## Architecture
@@ -58,19 +65,24 @@ Clean Architecture with three layers. Dependencies flow inward only: Presentatio
 ```
 lib/
 ├── main.dart                    # App entry, ProviderScope, env loading
+├── app.dart                     # MaterialApp, router, theme 설정
+├── firebase_options.dart        # FlutterFire CLI 자동 생성 (커밋 포함)
 ├── config/
-│   ├── router.dart              # go_router configuration, route guards
-│   ├── di.dart                  # Riverpod provider definitions
-│   └── env.dart                 # Environment variable access (.env)
+│   ├── di/                      # Riverpod provider definitions (feature별 분리)
+│   ├── env/                     # Environment variable access (.env)
+│   ├── router/                  # go_router configuration, route guards
+│   └── theme/                   # App theme 설정
 ├── core/
 │   ├── constants/               # App-wide constants, enums
 │   ├── errors/                  # Failure/Exception types
 │   ├── extensions/              # Dart extension methods
+│   ├── services/                # Analytics, ATT 등 앱 서비스
+│   ├── usecase/                 # UseCase base class
 │   └── utils/                   # Shared utilities
 ├── data/
 │   ├── datasources/
 │   │   ├── local/               # Drift (SQLite) data sources
-│   │   └── remote/              # Supabase data sources
+│   │   └── remote/              # Supabase data sources (auth, transactions 등)
 │   ├── models/                  # DTOs (Data Transfer Objects)
 │   ├── mappers/                 # DTO ↔ Entity mappers
 │   └── repositories/            # Concrete repository implementations
@@ -78,10 +90,11 @@ lib/
 │   ├── entities/                # Business objects (Transaction, Account, etc.)
 │   ├── repositories/            # Abstract repository interfaces
 │   └── usecases/                # Business logic use cases
-└── presentation/
-    ├── screens/                 # Screen widgets (pages)
-    ├── widgets/                 # Reusable UI components
-    └── providers/               # Riverpod Notifiers (ViewModels)
+├── presentation/
+│   ├── screens/                 # Screen widgets (pages)
+│   ├── widgets/                 # Reusable UI components
+│   └── providers/               # Riverpod Notifiers (ViewModels)
+└── l10n/                        # Localization (ARB files)
 ```
 
 ## Double-Entry Bookkeeping Model
@@ -167,6 +180,32 @@ fix(인증): Google 로그인 시 빈 serverClientId 방어 처리
 test(거래): 복식부기 잔액 계산 테스트 추가
 chore(ci): GitHub Actions 워크플로우 추가
 ```
+
+## Authentication
+
+Supabase Auth 기반, OAuth 소셜 로그인:
+
+- **Google Sign-In**: `google_sign_in` 패키지 → Supabase `signInWithIdToken(provider: OAuthProvider.google)`
+- **Apple Sign-In**: `sign_in_with_apple` 패키지 → nonce 생성 + SHA256 해싱 → Supabase `signInWithIdToken(provider: OAuthProvider.apple)` (iOS only)
+- **로그아웃 / 계정 삭제**: Supabase Auth API 사용
+
+Apple Sign-In 설정 필요 항목:
+1. Apple Developer Console → App ID에 Sign In with Apple capability 활성화
+2. Apple Developer → Keys → Sign In with Apple 키 생성 (.p8)
+3. Supabase Dashboard → Authentication → Providers → Apple 활성화 (Service ID, Secret Key, Key ID, Team ID)
+
+## Firebase
+
+Firebase 프로젝트: `smart-budget-book`
+
+- `firebase_options.dart`는 `flutterfire configure`로 자동 생성 (커밋 대상)
+- `main.dart`에서 `Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)` 호출
+- Android: `com.google.gms.google-services` Gradle 플러그인 적용됨
+
+현재 활성화된 서비스:
+- **Analytics**: `AnalyticsService` 싱글턴 (`core/services/analytics_service.dart`)
+- **Crashlytics**: 미구현
+- **FCM**: 미구현
 
 ## Development Conventions
 
