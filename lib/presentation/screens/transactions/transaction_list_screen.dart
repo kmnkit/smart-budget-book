@@ -60,7 +60,7 @@ class TransactionListScreen extends ConsumerWidget {
                     ),
                   ),
                   ...entry.value.map(
-                    (t) => _TransactionTile(
+                    (t) => _DismissibleTransactionTile(
                       transaction: t,
                       accounts: accounts,
                       onTap: () async {
@@ -71,6 +71,7 @@ class TransactionListScreen extends ConsumerWidget {
                           ref.invalidate(transactionListProvider);
                         }
                       },
+                      onDelete: () => _deleteTransaction(context, ref, t.id),
                     ),
                   ),
                 ],
@@ -96,6 +97,52 @@ class TransactionListScreen extends ConsumerWidget {
     if (date.isToday) return l10n.today;
     if (date.isYesterday) return l10n.yesterday;
     return date.yMd;
+  }
+
+  Future<void> _deleteTransaction(
+    BuildContext context,
+    WidgetRef ref,
+    String transactionId,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.delete),
+        content: Text(l10n.deleteTransactionConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    final success = await ref.read(
+      deleteTransactionProvider(transactionId: transactionId).future,
+    );
+
+    if (!context.mounted) return;
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.transactionDeleted)),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.errorOccurred)),
+      );
+    }
   }
 
   void _showFilterDialog(BuildContext context, WidgetRef ref) {
@@ -127,16 +174,18 @@ class TransactionListScreen extends ConsumerWidget {
   }
 }
 
-class _TransactionTile extends StatelessWidget {
-  const _TransactionTile({
+class _DismissibleTransactionTile extends StatelessWidget {
+  const _DismissibleTransactionTile({
     required this.transaction,
     required this.accounts,
     required this.onTap,
+    required this.onDelete,
   });
 
   final Transaction transaction;
   final List<Account> accounts;
   final VoidCallback onTap;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -145,24 +194,45 @@ class _TransactionTile extends StatelessWidget {
     final creditAccount =
         accounts.where((a) => a.id == transaction.creditAccountId).firstOrNull;
 
-    return Card(
-      child: ListTile(
-        onTap: onTap,
-        title: Text(
-          transaction.description ??
-              '${debitAccount?.name ?? '?'} → ${creditAccount?.name ?? '?'}',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+    return Dismissible(
+      key: ValueKey(transaction.id),
+      direction: DismissDirection.endToStart,
+      confirmDismiss: (_) async {
+        onDelete();
+        return false;
+      },
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20),
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.error,
+          borderRadius: BorderRadius.circular(12),
         ),
-        subtitle: Text(
-          '${debitAccount?.name ?? '?'} → ${creditAccount?.name ?? '?'}',
-          style: Theme.of(context).textTheme.bodySmall,
+        child: Icon(
+          Icons.delete_outline,
+          color: Theme.of(context).colorScheme.onError,
         ),
-        trailing: Text(
-          CurrencyFormatter.format(transaction.amount),
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+      ),
+      child: Card(
+        child: ListTile(
+          onTap: onTap,
+          title: Text(
+            transaction.description ??
+                '${debitAccount?.name ?? '?'} → ${creditAccount?.name ?? '?'}',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text(
+            '${debitAccount?.name ?? '?'} → ${creditAccount?.name ?? '?'}',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          trailing: Text(
+            CurrencyFormatter.format(transaction.amount),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
         ),
       ),
     );

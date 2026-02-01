@@ -3,6 +3,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:zan/config/di/transaction_providers.dart';
 import 'package:zan/domain/entities/transaction.dart';
 import 'package:zan/presentation/providers/auth_provider.dart';
+import 'package:zan/presentation/providers/dashboard_provider.dart';
+import 'package:zan/presentation/providers/report_provider.dart';
+import 'package:zan/presentation/providers/subscription_provider.dart';
 
 part 'transaction_list_provider.g.dart';
 
@@ -52,5 +55,25 @@ Future<List<Transaction>> recentTransactions(Ref ref) async {
   return result.when(
     success: (transactions) => transactions,
     failure: (_) => [],
+  );
+}
+
+@riverpod
+Future<bool> deleteTransaction(Ref ref, {required String transactionId}) async {
+  final repo = ref.watch(transactionRepositoryProvider);
+  final result = await repo.deleteTransaction(transactionId);
+  return result.when(
+    success: (_) {
+      ref.invalidate(transactionListProvider);
+      ref.invalidate(recentTransactionsProvider);
+      ref.invalidate(accountBalancesProvider);
+      ref.invalidate(currentMonthSummaryProvider);
+      ref.invalidate(monthlyReportProvider);
+      ref.invalidate(categoryBreakdownProvider);
+      ref.invalidate(previousMonthSummaryProvider);
+      ref.invalidate(usageQuotaProvider);
+      return true;
+    },
+    failure: (_) => false,
   );
 }

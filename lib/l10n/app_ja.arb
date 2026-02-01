@@ -193,5 +193,7 @@
   "invalidAmount": "正しい金額を入力してください",
   "accountRequired": "アカウントを選択してください",
   "attTitle": "トラッキングを許可",
-  "attMessage": "体験向上のためトラッキングを許可してください。設定でいつでも変更できます。"
+  "attMessage": "体験向上のためトラッキングを許可してください。設定でいつでも変更できます。",
+  "transactionDeleted": "取引を削除しました",
+  "deleteTransactionConfirm": "この取引を削除しますか？"
 }
