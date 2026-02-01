@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zan/app.dart';
 import 'package:zan/config/env/env.dart';
+import 'package:zan/core/services/messaging_service.dart';
 import 'package:zan/firebase_options.dart';
 
 void main() async {
@@ -31,6 +32,9 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  // FCM 초기화
+  await MessagingService.instance.initialize();
 
   await Supabase.initialize(
     url: Env.supabaseUrl,

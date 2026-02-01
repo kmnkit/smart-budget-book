@@ -54,6 +54,10 @@
 	</array>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>We use this identifier to measure ad campaign effectiveness and improve your experience. You can change this in Settings anytime.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
