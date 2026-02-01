@@ -23,6 +23,8 @@ jobs:
       - name: Analyze
         run: flutter analyze
       - name: Format check
-        run: dart format --set-exit-if-changed lib/ test/
+        run: dart format --set-exit-if-changed lib/ test/ integration_test/
       - name: Run tests
         run: flutter test
+      - name: Run E2E tests
+        run: flutter test integration_test/
