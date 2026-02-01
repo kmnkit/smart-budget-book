@@ -110,9 +110,66 @@ Custom functions: `get_user_balances(user_id)`, `get_monthly_summary(user_id, ye
 
 Amount is stored as INTEGER in smallest unit (1 JPY = 1, 1 KRW = 1). Transactions use soft delete (`deleted_at` field).
 
+## Commit Message Convention
+
+Conventional Commits 기반, 제목은 한글로 작성.
+
+### 형식
+
+```
+<타입>(<범위>): <제목>
+
+<본문> (선택)
+
+<꼬리말> (선택)
+```
+
+### 타입
+
+| 타입 | 용도 |
+|------|------|
+| `feat` | 새 기능 추가 |
+| `fix` | 버그 수정 |
+| `refactor` | 리팩토링 (기능 변화 없음) |
+| `style` | UI/스타일 변경 |
+| `test` | 테스트 추가/수정 |
+| `docs` | 문서 변경 |
+| `chore` | 빌드/CI/설정 변경 |
+| `perf` | 성능 개선 |
+
+### 범위 (선택)
+
+| 범위 | 대상 |
+|------|------|
+| `거래` | 거래 입력/조회/수정 |
+| `계좌` | 계좌 관리 |
+| `인증` | 로그인/회원가입/소셜 로그인 |
+| `홈` | 홈 화면/대시보드 |
+| `리포트` | 월간 보고서/통계 |
+| `온보딩` | 온보딩 플로우 |
+| `구독` | 구독/결제/페이월 |
+| `설정` | 앱 설정 |
+| `ci` | CI/CD 파이프라인 |
+| `db` | DB 스키마/마이그레이션 |
+
+### 규칙
+
+- 제목은 한글, 50자 이내, 마침표 없음
+- 타입은 영문 소문자
+- 본문은 "무엇을"이 아닌 **"왜"** 중심으로 작성
+- Breaking change는 꼬리말에 `BREAKING CHANGE:` 표기
+
+### 예시
+
+```
+feat(거래): 지출/수입/이체 탭 전환 방식 도입
+fix(인증): Google 로그인 시 빈 serverClientId 방어 처리
+test(거래): 복식부기 잔액 계산 테스트 추가
+chore(ci): GitHub Actions 워크플로우 추가
+```
+
 ## Development Conventions
 
-- **Commit messages in Korean (한글)**.
 - **TDD strictly enforced** — write tests before implementation. Test structure mirrors `lib/` under `test/unit/`, `test/widget/`, `test/integration/`.
 - **Environment variables** loaded from `.env` via `flutter_dotenv`. Never hardcode secrets.
 - **Localization**: Korean and English UI with future Japanese expansion. Use `intl` or `easy_localization` with ARB files.
