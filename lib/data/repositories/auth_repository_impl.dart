@@ -1,4 +1,5 @@
 import 'package:zan/core/errors/failures.dart';
+import 'package:zan/core/services/crashlytics_service.dart';
 import 'package:zan/core/usecase/result.dart';
 import 'package:zan/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:zan/domain/repositories/auth_repository.dart';
@@ -10,7 +11,11 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<void>> signInWithGoogle() async {
     try {
-      await _remoteDataSource.signInWithGoogle();
+      final response = await _remoteDataSource.signInWithGoogle();
+      final userId = response.user?.id;
+      if (userId != null) {
+        await CrashlyticsService.instance.setUserIdentifier(userId);
+      }
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
@@ -20,7 +25,11 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<void>> signInWithApple() async {
     try {
-      await _remoteDataSource.signInWithApple();
+      final response = await _remoteDataSource.signInWithApple();
+      final userId = response.user?.id;
+      if (userId != null) {
+        await CrashlyticsService.instance.setUserIdentifier(userId);
+      }
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
@@ -31,6 +40,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> signOut() async {
     try {
       await _remoteDataSource.signOut();
+      await CrashlyticsService.instance.setUserIdentifier('');
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
@@ -41,6 +51,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> deleteAccount() async {
     try {
       await _remoteDataSource.deleteAccount();
+      await CrashlyticsService.instance.setUserIdentifier('');
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
