@@ -12,10 +12,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> signInWithGoogle() async {
     try {
       final response = await _remoteDataSource.signInWithGoogle();
-      final userId = response.user?.id;
-      if (userId != null) {
-        await CrashlyticsService.instance.setUserIdentifier(userId);
-      }
+      _setCrashlyticsUser(response.user?.id);
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
@@ -26,10 +23,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> signInWithApple() async {
     try {
       final response = await _remoteDataSource.signInWithApple();
-      final userId = response.user?.id;
-      if (userId != null) {
-        await CrashlyticsService.instance.setUserIdentifier(userId);
-      }
+      _setCrashlyticsUser(response.user?.id);
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
@@ -40,7 +34,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> signOut() async {
     try {
       await _remoteDataSource.signOut();
-      await CrashlyticsService.instance.setUserIdentifier('');
+      _setCrashlyticsUser('');
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
@@ -51,10 +45,18 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> deleteAccount() async {
     try {
       await _remoteDataSource.deleteAccount();
-      await CrashlyticsService.instance.setUserIdentifier('');
+      _setCrashlyticsUser('');
       return const Success(null);
     } catch (e) {
       return Fail(AuthFailure(e.toString()));
+    }
+  }
+
+  void _setCrashlyticsUser(String? userId) {
+    try {
+      CrashlyticsService.instance.setUserIdentifier(userId ?? '');
+    } catch (_) {
+      // Crashlytics는 관측용이므로 실패해도 인증 흐름에 영향 없음
     }
   }
 

@@ -41,7 +41,10 @@ class MockAccountRepository extends Mock implements AccountRepository {}
 
 class MockTransactionRepository extends Mock implements TransactionRepository {}
 
-class FakeAuthResponse extends Fake implements AuthResponse {}
+class FakeAuthResponse extends Fake implements AuthResponse {
+  @override
+  User? get user => null;
+}
 
 // ---- Test Constants ----
 

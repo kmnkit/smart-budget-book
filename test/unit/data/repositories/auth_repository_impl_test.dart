@@ -7,7 +7,10 @@ import 'package:zan/data/repositories/auth_repository_impl.dart';
 
 import '../../../helpers/test_helpers.dart';
 
-class _FakeAuthResponse extends Fake implements AuthResponse {}
+class _FakeAuthResponse extends Fake implements AuthResponse {
+  @override
+  User? get user => null;
+}
 
 class _FakeSession extends Fake implements Session {}
 
