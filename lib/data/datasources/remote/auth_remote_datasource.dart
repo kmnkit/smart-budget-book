@@ -26,7 +26,7 @@ class AuthRemoteDataSource {
       throw Exception('Failed to get Google ID token');
     }
 
-    return _auth.signInWithIdToken(
+    return await _auth.signInWithIdToken(
       provider: OAuthProvider.google,
       idToken: idToken,
       accessToken: accessToken,
